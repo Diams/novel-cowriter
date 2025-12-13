@@ -4,6 +4,7 @@ import { useState } from "react";
 import Pane from "@/components/containers/pane";
 import Tab from "@/components/containers/tab";
 import Badge from "@/components/displays/badge";
+import Button from "@/components/actions/button";
 
 export default function LeftPane() {
   const [n_selected_items, set_n_selected_items] = useState<number>(0);
@@ -20,7 +21,16 @@ export default function LeftPane() {
             <Tab.Trigger value="story">本編</Tab.Trigger>
           </Tab.List>
           <Tab.CommonContent>
-            <Badge text={`AI参照：${n_selected_items}件`} />
+            <div className="space-y-2">
+              <div>
+                <Badge text={`AI参照：${n_selected_items}件`} />
+              </div>
+              <div className="flex justify-end items-center gap-2">
+                <Button text="追加" icon_name="IconPlus" />
+                <Button text="全選択" />
+                <Button text="全解除" />
+              </div>
+            </div>
           </Tab.CommonContent>
           <Tab.Content value="settings">
             <p>This is the content of Tab 1.</p>
