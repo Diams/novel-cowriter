@@ -1,5 +1,5 @@
-import Pane from "@/components/pane/pane";
-import Tab from "@/components/tab/tab";
+import Pane from "@/components/containers/pane";
+import Tab from "@/components/containers/tab";
 
 export default function LeftPane() {
   return (
