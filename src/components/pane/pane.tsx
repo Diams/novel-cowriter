@@ -24,7 +24,9 @@ export default function Pane({
     console.warn("Pane can only have one Pane.Title");
   }
 
-  return <div className={`border rounded-[22px] ${className}`}>{children}</div>;
+  return (
+    <div className={`border rounded-[22px] ${className ?? ""}`}>{children}</div>
+  );
 }
 
 function PaneTitle({
@@ -34,7 +36,7 @@ function PaneTitle({
   children: React.ReactNode;
   className?: string;
 }) {
-  return <div className={`py-3 px-3.5 ${className}`}>{children}</div>;
+  return <div className={`py-3 px-3.5 ${className ?? ""}`}>{children}</div>;
 }
 
 function PaneContent({
@@ -44,7 +46,9 @@ function PaneContent({
   children: React.ReactNode;
   className?: string;
 }) {
-  return <div className={`border-t py-3 px-3.5 ${className}`}>{children}</div>;
+  return (
+    <div className={`border-t py-3 px-3.5 ${className ?? ""}`}>{children}</div>
+  );
 }
 
 Pane.Title = PaneTitle;
