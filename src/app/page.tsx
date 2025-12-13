@@ -1,4 +1,5 @@
 import Image from "next/image";
+import LeftPane from "@/ui/left_pane";
 
 export default function Home() {
   return (
@@ -15,7 +16,9 @@ export default function Home() {
         </div>
       </header>
       <main className="grid grid-cols-[320px_1fr_420px] w-full flex-1 gap-3 p-3">
-        <section></section>
+        <section>
+          <LeftPane />
+        </section>
         <section></section>
         <section></section>
       </main>
