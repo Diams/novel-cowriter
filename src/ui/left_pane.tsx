@@ -1,4 +1,5 @@
 import Pane from "@/components/pane/pane";
+import Tab from "@/components/tab/tab";
 
 export default function LeftPane() {
   return (
@@ -6,8 +7,22 @@ export default function LeftPane() {
       <Pane.Title className="bg-[rgba(15,23,42,0.55)]">
         <h2 className="text-sm font-extrabold">設定集／本編</h2>
       </Pane.Title>
-      <Pane.Content className="text-xs overflow-y-auto">
-        <div>ここにコンテンツが入ります。</div>
+      <Pane.Content className="text-sm overflow-y-auto">
+        <Tab default_value="settings">
+          <Tab.List className="font-bold">
+            <Tab.Trigger value="settings">設定</Tab.Trigger>
+            <Tab.Trigger value="story">本編</Tab.Trigger>
+          </Tab.List>
+          <Tab.CommonContent>
+            <p>Select a tab to view its content.</p>
+          </Tab.CommonContent>
+          <Tab.Content value="settings">
+            <p>This is the content of Tab 1.</p>
+          </Tab.Content>
+          <Tab.Content value="story">
+            <p>This is the content of Tab 2.</p>
+          </Tab.Content>
+        </Tab>
       </Pane.Content>
     </Pane>
   );
