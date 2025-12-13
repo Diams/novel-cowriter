@@ -19,7 +19,6 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --color-border: var(--border);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
@@ -40,4 +39,8 @@ body {
   color: var(--text);
   font-family: var(--sans);
   letter-spacing: 0.2px;
+}
+
+* {
+  border-color: var(--border);
 }
