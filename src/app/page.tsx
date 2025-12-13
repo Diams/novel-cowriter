@@ -14,7 +14,7 @@ export default function Home() {
           <h1>Novel Co-Writer</h1>
         </div>
       </header>
-      <main className="grid grid-cols-[320px_1fr_420px] w-full flex-1">
+      <main className="grid grid-cols-[320px_1fr_420px] w-full flex-1 gap-3 p-3">
         <section></section>
         <section></section>
         <section></section>
