@@ -17,7 +17,7 @@ export default function RightPane() {
     (state) => state.ai_referenced_story
   );
   const [ai_referenceds, set_ai_referenceds] = useState<CanonData[]>([]);
-  const [chat_messages, set_chat_messages] = useState<ChatMessageData[]>([
+  const default_chat_messages: ChatMessageData[] = [
     {
       role: "system",
       content: `You are a writing assistant for a novel.
@@ -43,8 +43,33 @@ Output:
 - Do not assume missing information; note uncertainties when needed.
 `,
     },
-  ]);
+  ];
+  const [chat_messages, set_chat_messages] = useState<ChatMessageData[]>(
+    default_chat_messages
+  );
   const [chat_input, set_chat_input] = useState<string>("");
+  const [is_loaded, set_is_loaded] = useState(false);
+
+  // 初回マウント時にlocalStorageから復元
+  useEffect(() => {
+    const saved = localStorage.getItem("chat_messages");
+    if (saved) {
+      try {
+        set_chat_messages(JSON.parse(saved));
+      } catch (e) {
+        console.error("Failed to parse saved chat messages:", e);
+      }
+    }
+    set_is_loaded(true);
+  }, []);
+
+  // chat_messagesが更新されたらlocalStorageに保存（初回ロード後のみ）
+  useEffect(() => {
+    if (is_loaded) {
+      localStorage.setItem("chat_messages", JSON.stringify(chat_messages));
+    }
+  }, [chat_messages, is_loaded]);
+
   useEffect(() => {
     const new_ai_referenced_keys: string[] = [];
     new_ai_referenced_keys.push(
