@@ -175,7 +175,9 @@ export default function LeftPane() {
                 set_is_ai_referenceds_settings(new_states);
                 if (id === selected_settings) {
                   const updated = canons_settings.filter((c) => c.id !== id);
-                  set_selected_settings(updated[0].id);
+                  set_selected_settings(
+                    updated.length > 0 ? updated[0].id : ""
+                  );
                 }
                 handle_update_canons();
               }}
@@ -202,7 +204,7 @@ export default function LeftPane() {
                 set_is_ai_referenceds_story(new_states);
                 if (id === selected_story) {
                   const updated = canons_story.filter((c) => c.id !== id);
-                  set_selected_story(updated[0].id);
+                  set_selected_story(updated.length > 0 ? updated[0].id : "");
                 }
                 handle_update_canons();
               }}
