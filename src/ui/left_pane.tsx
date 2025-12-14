@@ -12,6 +12,7 @@ import {
   UpdateCanon,
 } from "@/utils/data_accessor/canon_data_accessor";
 import { CanonData } from "@/utils/data_type";
+import { useAIReferencesStore } from "@/utils/stores/ai_referrences_store";
 import { useCurrentTabStore } from "@/utils/stores/current_tab_store";
 import { useSelectedCanonStore } from "@/utils/stores/selected_canon_store";
 import CanonContainer from "./left_pane/canon_container";
@@ -43,16 +44,23 @@ export default function LeftPane() {
   const set_selected_settings = useSelectedCanonStore(
     (state) => state.set_selected_settings
   );
-  const [is_ai_referenceds_settings, set_is_ai_referenceds_settings] =
-    useState<{ [id: string]: boolean }>({});
+  const is_ai_referenceds_settings = useAIReferencesStore(
+    (state) => state.ai_referenced_settings
+  );
+  const set_is_ai_referenceds_settings = useAIReferencesStore(
+    (state) => state.set_ai_referenced_settings
+  );
   const [canons_story, set_canons_story] = useState<CanonData[]>([]);
   const selected_story = useSelectedCanonStore((state) => state.selected_story);
   const set_selected_story = useSelectedCanonStore(
     (state) => state.set_selected_story
   );
-  const [is_ai_referenceds_story, set_is_ai_referenceds_story] = useState<{
-    [id: string]: boolean;
-  }>({});
+  const is_ai_referenceds_story = useAIReferencesStore(
+    (state) => state.ai_referenced_story
+  );
+  const set_is_ai_referenceds_story = useAIReferencesStore(
+    (state) => state.set_ai_referenced_story
+  );
   const handle_update_canons = (): {
     canons_settings: CanonData[];
     canons_story: CanonData[];
@@ -162,10 +170,9 @@ export default function LeftPane() {
               }}
               onDelete={(id: string) => {
                 DeleteCanon(id);
-                set_is_ai_referenceds_settings((prev) => ({
-                  ...prev,
-                  [id]: false,
-                }));
+                const new_states = { ...is_ai_referenceds_settings };
+                new_states[id] = false;
+                set_is_ai_referenceds_settings(new_states);
                 if (id === selected_settings) {
                   const updated = canons_settings.filter((c) => c.id !== id);
                   set_selected_settings(updated[0].id);
@@ -190,10 +197,9 @@ export default function LeftPane() {
               }}
               onDelete={(id: string) => {
                 DeleteCanon(id);
-                set_is_ai_referenceds_story((prev) => ({
-                  ...prev,
-                  [id]: false,
-                }));
+                const new_states = { ...is_ai_referenceds_story };
+                new_states[id] = false;
+                set_is_ai_referenceds_story(new_states);
                 if (id === selected_story) {
                   const updated = canons_story.filter((c) => c.id !== id);
                   set_selected_story(updated[0].id);

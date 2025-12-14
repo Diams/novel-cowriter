@@ -21,6 +21,7 @@
   --color-background: var(--background);
   --color-foreground: var(--text);
   --color-muted: var(--muted);
+  --color-accent: var(--accent);
   --color-good: var(--good);
   --color-danger: var(--danger);
   --color-border: var(--border);
