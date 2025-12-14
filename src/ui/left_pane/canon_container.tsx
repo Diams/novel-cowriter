@@ -23,7 +23,7 @@ export default function CanonContainer({
   const selected_index = canons.findIndex((c) => c.id === selected_canon);
   return (
     <SelectableCardContainer
-      selected={selected_index >= 0 ? selected_index : 0}
+      selected={selected_index}
       onSelectedChange={(index: number) => {
         if (canons[index]) {
           set_selected_canon(canons[index].id);
