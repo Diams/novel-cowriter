@@ -73,7 +73,12 @@ export default function LeftPane() {
         <h2 className="text-sm font-extrabold">設定集／本編</h2>
       </Pane.Title>
       <Pane.Content className="text-sm overflow-y-auto">
-        <Tab default_value="settings">
+        <Tab
+          default_value="settings"
+          onValueChange={(value: string) => {
+            console.log(value);
+          }}
+        >
           <Tab.List className="font-bold">
             <Tab.Trigger value="settings">設定</Tab.Trigger>
             <Tab.Trigger value="story">本編</Tab.Trigger>
