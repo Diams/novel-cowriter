@@ -3,8 +3,15 @@
 import Button from "@/components/actions/button";
 import Pane from "@/components/containers/pane";
 import Badge from "@/components/displays/badge";
+import { useAIReferencesStore } from "@/utils/stores/ai_referrences_store";
 
 export default function RightPane() {
+  const ai_referenced_settings = useAIReferencesStore(
+    (state) => state.ai_referenced_settings
+  );
+  const ai_referenced_story = useAIReferencesStore(
+    (state) => state.ai_referenced_story
+  );
   return (
     <Pane className="flex flex-col h-full bg-linear-to-b from-[rgba(16,24,40,0.72)] to-[rgba(16,24,40,0.5)] shadow-black/35 overflow-hidden">
       <Pane.Title className="bg-[rgba(15,23,42,0.55)]">
@@ -13,7 +20,10 @@ export default function RightPane() {
       <Pane.Content className="flex flex-col text-sm gap-2">
         <div className="flex">
           <h2 className="text-xs font-extrabold">AI参照</h2>
-          <p className="text-[11px] text-muted">（設定0 / 本編0）</p>
+          <p className="text-[11px] text-muted">
+            （設定{Object.values(ai_referenced_settings).filter(Boolean).length}{" "}
+            / 本編{Object.values(ai_referenced_story).filter(Boolean).length}）
+          </p>
         </div>
         <div className="flex flex-wrap gap-1">
           <Badge text="（参照なし：チェックで追加）" />
