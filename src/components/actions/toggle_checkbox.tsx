@@ -6,12 +6,16 @@ export default function ToggleCheckbox({
   text_size = 11,
   text_color = "white/92",
   border_color = "white/10",
+  is_checked = false,
+  onCheckedChange,
 }: {
   text?: string;
   bg_color?: string;
   text_size?: number;
   text_color?: string;
   border_color?: string;
+  is_checked?: boolean;
+  onCheckedChange?: (checked: boolean) => void;
 }) {
   return (
     <div
@@ -24,7 +28,12 @@ export default function ToggleCheckbox({
       }}
     >
       <label className="flex items-center gap-1.5">
-        <input type="checkbox" style={{ accentColor: "var(--good)" }} />
+        <input
+          type="checkbox"
+          style={{ accentColor: "var(--good)" }}
+          checked={is_checked}
+          onChange={(e) => onCheckedChange && onCheckedChange(e.target.checked)}
+        />
         {text}
       </label>
     </div>
