@@ -1,8 +1,11 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import Button from "@/components/actions/button";
 import Pane from "@/components/containers/pane";
 import Badge from "@/components/displays/badge";
+import { GetCanonById } from "@/utils/data_accessor/canon_data_accessor";
+import { CanonData } from "@/utils/data_type";
 import { useAIReferencesStore } from "@/utils/stores/ai_referrences_store";
 
 export default function RightPane() {
@@ -12,6 +15,24 @@ export default function RightPane() {
   const ai_referenced_story = useAIReferencesStore(
     (state) => state.ai_referenced_story
   );
+  const [ai_referenceds, set_ai_referenceds] = useState<CanonData[]>([]);
+  useEffect(() => {
+    const new_ai_referenced_keys: string[] = [];
+    new_ai_referenced_keys.push(
+      ...Object.keys(ai_referenced_settings).filter(
+        (key) => ai_referenced_settings[key]
+      )
+    );
+    new_ai_referenced_keys.push(
+      ...Object.keys(ai_referenced_story).filter(
+        (key) => ai_referenced_story[key]
+      )
+    );
+    const new_ai_referenced = new_ai_referenced_keys
+      .map((k) => GetCanonById(k))
+      .filter((canon): canon is CanonData => canon != null);
+    set_ai_referenceds(new_ai_referenced);
+  }, [ai_referenced_settings, ai_referenced_story]);
   return (
     <Pane className="flex flex-col h-full bg-linear-to-b from-[rgba(16,24,40,0.72)] to-[rgba(16,24,40,0.5)] shadow-black/35 overflow-hidden">
       <Pane.Title className="bg-[rgba(15,23,42,0.55)]">
@@ -26,7 +47,15 @@ export default function RightPane() {
           </p>
         </div>
         <div className="flex flex-wrap gap-1">
-          <Badge text="（参照なし：チェックで追加）" />
+          {ai_referenceds.length > 0 ? (
+            <>
+              {ai_referenceds.map((c) => (
+                <Badge key={c.id} text={c.title} />
+              ))}
+            </>
+          ) : (
+            <Badge text="（参照なし：チェックで追加）" />
+          )}
         </div>
       </Pane.Content>
       <Pane.Content className="flex flex-col flex-1 text-sm overflow-hidden gap-3">
