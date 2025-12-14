@@ -9,6 +9,9 @@ import { CanonData } from "@/utils/data_type";
 import CanonContainer from "./left_pane/canon_container";
 
 export default function LeftPane() {
+  const default_tab_value = "settings";
+  const [current_tab_value, set_current_tab_value] =
+    useState<string>(default_tab_value);
   const canons_settings: CanonData[] = [
     {
       id: crypto.randomUUID(),
@@ -74,10 +77,8 @@ export default function LeftPane() {
       </Pane.Title>
       <Pane.Content className="text-sm overflow-y-auto">
         <Tab
-          default_value="settings"
-          onValueChange={(value: string) => {
-            console.log(value);
-          }}
+          default_value={default_tab_value}
+          onValueChange={set_current_tab_value}
         >
           <Tab.List className="font-bold">
             <Tab.Trigger value="settings">設定</Tab.Trigger>
