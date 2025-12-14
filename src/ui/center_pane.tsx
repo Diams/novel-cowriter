@@ -6,7 +6,7 @@ import Badge from "@/components/displays/badge";
 
 export default function CenterPane() {
   return (
-    <Pane className="h-full bg-linear-to-b from-[rgba(16,24,40,0.72)] to-[rgba(16,24,40,0.5)] shadow-black/35 overflow-hidden">
+    <Pane className="flex flex-col h-full bg-linear-to-b from-[rgba(16,24,40,0.72)] to-[rgba(16,24,40,0.5)] shadow-black/35 overflow-hidden">
       <Pane.Title className="flex bg-[rgba(15,23,42,0.55)]">
         <div>
           <h2 className="text-sm font-extrabold">作業スペース</h2>
@@ -18,6 +18,9 @@ export default function CenterPane() {
           <Button text="クリア" />
         </div>
       </Pane.Title>
+      <Pane.Content className="flex-1 text-sm overflow-auto">
+        <textarea className="w-full border rounded-2xl min-h-130" />
+      </Pane.Content>
     </Pane>
   );
 }
