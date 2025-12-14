@@ -67,7 +67,10 @@ export default function CenterPane() {
               );
             }}
           />
-          <Button text="クリア" />
+          <Button
+            text="クリア"
+            onClick={() => set_selected_canon_content("")}
+          />
         </div>
       </Pane.Title>
       <Pane.Content className="flex-1 text-sm overflow-auto">
