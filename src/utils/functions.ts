@@ -145,6 +145,9 @@ const tailwindColors: Record<string, Record<string, string> | string> = {
   },
   white: "#ffffff",
   black: "#000000",
+  accent: "#7c3aed",
+  good: "#22c55e",
+  danger: "#ef4444",
 };
 
 // HEXをRGBに変換
