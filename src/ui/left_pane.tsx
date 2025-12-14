@@ -100,7 +100,6 @@ export default function LeftPane() {
                       });
                     }
                     handle_update_canons();
-                    console.log(selected_story);
                   }}
                 />
                 <Button
