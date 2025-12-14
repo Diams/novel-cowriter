@@ -7,12 +7,12 @@ import Tab from "@/components/containers/tab";
 import Badge from "@/components/displays/badge";
 import {
   CreateCanon,
+  DeleteCanon,
   GetCanonsByType,
   UpdateCanon,
 } from "@/utils/data_accessor/canon_data_accessor";
 import { CanonData } from "@/utils/data_type";
 import CanonContainer from "./left_pane/canon_container";
-import { title } from "process";
 
 export default function LeftPane() {
   const default_tab_value = "settings";
@@ -140,6 +140,14 @@ export default function LeftPane() {
                 });
                 handle_update_canons();
               }}
+              onDelete={(id: string) => {
+                DeleteCanon(id);
+                handle_update_canons();
+                set_is_ai_referenceds_settings((prev) => ({
+                  [id]: false,
+                  ...prev,
+                }));
+              }}
             />
           </Tab.Content>
           <Tab.Content value="story">
@@ -155,6 +163,14 @@ export default function LeftPane() {
                   description: new_description,
                 });
                 handle_update_canons();
+              }}
+              onDelete={(id: string) => {
+                DeleteCanon(id);
+                handle_update_canons();
+                set_is_ai_referenceds_story((prev) => ({
+                  [id]: false,
+                  ...prev,
+                }));
               }}
             />
           </Tab.Content>
