@@ -8,9 +8,11 @@ import Badge from "@/components/displays/badge";
 import {
   CreateCanon,
   GetCanonsByType,
+  UpdateCanon,
 } from "@/utils/data_accessor/canon_data_accessor";
 import { CanonData } from "@/utils/data_type";
 import CanonContainer from "./left_pane/canon_container";
+import { title } from "process";
 
 export default function LeftPane() {
   const default_tab_value = "settings";
@@ -131,6 +133,13 @@ export default function LeftPane() {
               set_selected_index={set_selected_index_settings}
               is_ai_referenceds={is_ai_referenceds_settings}
               set_is_ai_referenceds={set_is_ai_referenceds_settings}
+              onEdited={(id: string, new_title: string, new_description) => {
+                UpdateCanon(id, {
+                  title: new_title,
+                  description: new_description,
+                });
+                handle_update_canons();
+              }}
             />
           </Tab.Content>
           <Tab.Content value="story">
@@ -140,6 +149,13 @@ export default function LeftPane() {
               set_selected_index={set_selected_index_story}
               is_ai_referenceds={is_ai_referenceds_story}
               set_is_ai_referenceds={set_is_ai_referenceds_story}
+              onEdited={(id: string, new_title: string, new_description) => {
+                UpdateCanon(id, {
+                  title: new_title,
+                  description: new_description,
+                });
+                handle_update_canons();
+              }}
             />
           </Tab.Content>
         </Tab>
