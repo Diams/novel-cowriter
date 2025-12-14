@@ -4,4 +4,5 @@ export interface CanonData {
   description: string;
   version: number;
   content: string;
+  type: "settings" | "story";
 }
