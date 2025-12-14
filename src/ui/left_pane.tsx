@@ -5,13 +5,29 @@ import Button from "@/components/actions/button";
 import Pane from "@/components/containers/pane";
 import Tab from "@/components/containers/tab";
 import Badge from "@/components/displays/badge";
+import { CreateCanon } from "@/utils/data_accessor/canon_data_accessor";
 import { CanonData } from "@/utils/data_type";
 import CanonContainer from "./left_pane/canon_container";
 
 export default function LeftPane() {
   const default_tab_value = "settings";
-  const [current_tab_value, set_current_tab_value] =
-    useState<string>(default_tab_value);
+  const new_item_default: {
+    [key: string]: { message: string; title: string; description: string };
+  } = {
+    settings: {
+      message: "新しい設定項目のタイトル",
+      title: "新規設定",
+      description: "（説明を後で）",
+    },
+    story: {
+      message: "新しい本編アイテムのタイトル",
+      title: "新章",
+      description: "確定稿（新規）",
+    },
+  };
+  const [current_tab_value, set_current_tab_value] = useState<
+    "settings" | "story"
+  >(default_tab_value);
   const canons_settings: CanonData[] = [
     {
       id: crypto.randomUUID(),
@@ -78,7 +94,11 @@ export default function LeftPane() {
       <Pane.Content className="text-sm overflow-y-auto">
         <Tab
           default_value={default_tab_value}
-          onValueChange={set_current_tab_value}
+          onValueChange={(value) => {
+            if (value === "settings" || value === "story") {
+              set_current_tab_value(value);
+            }
+          }}
         >
           <Tab.List className="font-bold">
             <Tab.Trigger value="settings">設定</Tab.Trigger>
@@ -94,7 +114,25 @@ export default function LeftPane() {
                 />
               </div>
               <div className="flex justify-end items-center gap-2">
-                <Button text="追加" icon_name="IconPlus" />
+                <Button
+                  text="追加"
+                  icon_name="IconPlus"
+                  onClick={() => {
+                    const title = prompt(
+                      new_item_default[current_tab_value].message,
+                      new_item_default[current_tab_value].title
+                    );
+                    if (title) {
+                      CreateCanon({
+                        title: title,
+                        description:
+                          new_item_default[current_tab_value].description,
+                        content: "",
+                        type: current_tab_value,
+                      });
+                    }
+                  }}
+                />
                 <Button text="全選択" />
                 <Button text="全解除" />
               </div>
