@@ -36,23 +36,20 @@ export default function LeftPane() {
     useState<number>(0);
   const [n_selected_items_settings, set_n_selected_items_settings] =
     useState<number>(0);
-  const [is_ai_referenceds_settings, set_is_ai_referenceds_settings] = useState<
-    boolean[]
-  >([]);
+  const [is_ai_referenceds_settings, set_is_ai_referenceds_settings] =
+    useState<{ [id: string]: boolean }>({});
   const [canons_story, set_canons_story] = useState<CanonData[]>([]);
   const [selected_index_story, set_selected_index_story] = useState<number>(0);
   const [n_selected_items_story, set_n_selected_items_story] =
     useState<number>(0);
-  const [is_ai_referenceds_story, set_is_ai_referenceds_story] = useState<
-    boolean[]
-  >([]);
+  const [is_ai_referenceds_story, set_is_ai_referenceds_story] = useState<{
+    [id: string]: boolean;
+  }>({});
   const handle_update_canons = () => {
     const canons_settings = GetCanonsByType("settings");
     const canons_story = GetCanonsByType("story");
     set_canons_settings(canons_settings);
-    set_is_ai_referenceds_settings(Array(canons_settings.length).fill(false));
     set_canons_story(canons_story);
-    set_is_ai_referenceds_story(Array(canons_story.length).fill(false));
   };
   useEffect(handle_update_canons, []);
   return (

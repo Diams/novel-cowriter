@@ -15,8 +15,8 @@ export default function CanonContainer({
   selected_index: number;
   set_selected_index: (index: number) => void;
   set_n_selected_items: (n: number) => void;
-  is_ai_referenceds: boolean[];
-  set_is_ai_referenceds: (states: boolean[]) => void;
+  is_ai_referenceds: { [id: string]: boolean };
+  set_is_ai_referenceds: (states: { [id: string]: boolean }) => void;
 }) {
   return (
     <SelectableCardContainer
@@ -31,12 +31,14 @@ export default function CanonContainer({
             title={canon.title}
             description={canon.description}
             version={canon.version}
-            is_ai_referenced={is_ai_referenceds[index]}
+            is_ai_referenced={is_ai_referenceds[canon.id]}
             onAiReferencedChange={(checked) => {
-              const new_states = [...is_ai_referenceds];
-              new_states[index] = checked;
+              const new_states = { ...is_ai_referenceds };
+              new_states[canon.id] = checked;
               set_is_ai_referenceds(new_states);
-              set_n_selected_items(new_states.filter((state) => state).length);
+              set_n_selected_items(
+                Object.values(new_states).filter((state) => state).length
+              );
             }}
           />
         </SelectableCard>
