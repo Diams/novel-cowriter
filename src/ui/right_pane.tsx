@@ -2,11 +2,11 @@
 
 import { useEffect, useState } from "react";
 import Button from "@/components/actions/button";
+import ChatMessageContainer from "@/components/containers/chat_message_container";
 import Pane from "@/components/containers/pane";
 import Badge from "@/components/displays/badge";
-import ChatMessage from "@/components/displays/chat_message";
 import { GetCanonById } from "@/utils/data_accessor/canon_data_accessor";
-import { CanonData } from "@/utils/data_type";
+import { CanonData, ChatMessageData } from "@/utils/data_type";
 import { useAIReferencesStore } from "@/utils/stores/ai_referrences_store";
 
 export default function RightPane() {
@@ -17,6 +17,48 @@ export default function RightPane() {
     (state) => state.ai_referenced_story
   );
   const [ai_referenceds, set_ai_referenceds] = useState<CanonData[]>([]);
+  const [chat_messages, set_chat_messages] = useState<ChatMessageData[]>([
+    {
+      role: "user",
+      content: "ここにチャットログが表示されます。緑色はユーザの発言です。",
+    },
+    {
+      role: "assistant",
+      content: "ここにチャットログが表示されます。紫色はAIの発言です。",
+    },
+    {
+      role: "user",
+      content: "ここにチャットログが表示されます。緑色はユーザの発言です。",
+    },
+    {
+      role: "assistant",
+      content: "ここにチャットログが表示されます。紫色はAIの発言です。",
+    },
+    {
+      role: "user",
+      content: "ここにチャットログが表示されます。緑色はユーザの発言です。",
+    },
+    {
+      role: "assistant",
+      content: "ここにチャットログが表示されます。紫色はAIの発言です。",
+    },
+    {
+      role: "user",
+      content: "ここにチャットログが表示されます。緑色はユーザの発言です。",
+    },
+    {
+      role: "assistant",
+      content: "ここにチャットログが表示されます。紫色はAIの発言です。",
+    },
+    {
+      role: "user",
+      content: "ここにチャットログが表示されます。緑色はユーザの発言です。",
+    },
+    {
+      role: "assistant",
+      content: "ここにチャットログが表示されます。紫色はAIの発言です。",
+    },
+  ]);
   useEffect(() => {
     const new_ai_referenced_keys: string[] = [];
     new_ai_referenced_keys.push(
@@ -62,50 +104,7 @@ export default function RightPane() {
       <Pane.Content className="flex flex-col flex-1 text-sm overflow-hidden gap-3">
         <h2 className="text-xs font-extrabold">チャットログ</h2>
         <div className="overflow-auto space-y-2">
-          <ChatMessage
-            role="user"
-            content="ここにチャットログが表示されます。緑色はユーザの発言です。"
-          />
-          <ChatMessage
-            role="assistant"
-            content="ここにチャットログが表示されます。紫色はAIの発言です。"
-          />
-          <div className="bg-accent/8 text-xs border border-accent/35 rounded-xl py-2 px-3 space-y-2">
-            <h3 className="font-extrabold">AIアシスタント</h3>
-            <p>ここにチャットログが表示されます。紫色はAIの発言です。</p>
-          </div>
-          <div className="bg-good/8 text-xs border border-good/35 rounded-xl py-2 px-3 space-y-2">
-            <h3 className="font-extrabold">あなた</h3>
-            <p>ここにチャットログが表示されます。緑色はユーザの発言です。</p>
-          </div>
-          <div className="bg-accent/8 text-xs border border-accent/35 rounded-xl py-2 px-3 space-y-2">
-            <h3 className="font-extrabold">AIアシスタント</h3>
-            <p>ここにチャットログが表示されます。紫色はAIの発言です。</p>
-          </div>
-          <div className="bg-good/8 text-xs border border-good/35 rounded-xl py-2 px-3 space-y-2">
-            <h3 className="font-extrabold">あなた</h3>
-            <p>ここにチャットログが表示されます。緑色はユーザの発言です。</p>
-          </div>
-          <div className="bg-accent/8 text-xs border border-accent/35 rounded-xl py-2 px-3 space-y-2">
-            <h3 className="font-extrabold">AIアシスタント</h3>
-            <p>ここにチャットログが表示されます。紫色はAIの発言です。</p>
-          </div>
-          <div className="bg-good/8 text-xs border border-good/35 rounded-xl py-2 px-3 space-y-2">
-            <h3 className="font-extrabold">あなた</h3>
-            <p>ここにチャットログが表示されます。緑色はユーザの発言です。</p>
-          </div>
-          <div className="bg-accent/8 text-xs border border-accent/35 rounded-xl py-2 px-3 space-y-2">
-            <h3 className="font-extrabold">AIアシスタント</h3>
-            <p>ここにチャットログが表示されます。紫色はAIの発言です。</p>
-          </div>
-          <div className="bg-good/8 text-xs border border-good/35 rounded-xl py-2 px-3 space-y-2">
-            <h3 className="font-extrabold">あなた</h3>
-            <p>ここにチャットログが表示されます。緑色はユーザの発言です。</p>
-          </div>
-          <div className="bg-accent/8 text-xs border border-accent/35 rounded-xl py-2 px-3 space-y-2">
-            <h3 className="font-extrabold">AIアシスタント</h3>
-            <p>ここにチャットログが表示されます。紫色はAIの発言です。</p>
-          </div>
+          <ChatMessageContainer chat_message={chat_messages} />
         </div>
       </Pane.Content>
       <Pane.Content className="text-sm gap-2">
