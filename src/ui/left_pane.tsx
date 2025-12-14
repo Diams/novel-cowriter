@@ -34,14 +34,10 @@ export default function LeftPane() {
   const [canons_settings, set_canons_settings] = useState<CanonData[]>([]);
   const [selected_index_settings, set_selected_index_settings] =
     useState<number>(0);
-  const [n_selected_items_settings, set_n_selected_items_settings] =
-    useState<number>(0);
   const [is_ai_referenceds_settings, set_is_ai_referenceds_settings] =
     useState<{ [id: string]: boolean }>({});
   const [canons_story, set_canons_story] = useState<CanonData[]>([]);
   const [selected_index_story, set_selected_index_story] = useState<number>(0);
-  const [n_selected_items_story, set_n_selected_items_story] =
-    useState<number>(0);
   const [is_ai_referenceds_story, set_is_ai_referenceds_story] = useState<{
     [id: string]: boolean;
   }>({});
@@ -75,7 +71,12 @@ export default function LeftPane() {
               <div>
                 <Badge
                   text={`AI参照：${
-                    n_selected_items_settings + n_selected_items_story
+                    Object.values(is_ai_referenceds_settings).filter(
+                      (is_ai_referenced) => is_ai_referenced
+                    ).length +
+                    Object.values(is_ai_referenceds_story).filter(
+                      (is_ai_referenced) => is_ai_referenced
+                    ).length
                   }件`}
                 />
               </div>
@@ -100,7 +101,19 @@ export default function LeftPane() {
                     handle_update_canons();
                   }}
                 />
-                <Button text="全選択" />
+                <Button
+                  text="全選択"
+                  onClick={() => {
+                    set_is_ai_referenceds_settings(
+                      Object.fromEntries(
+                        canons_settings.map((c) => [c.id, true])
+                      )
+                    );
+                    set_is_ai_referenceds_story(
+                      Object.fromEntries(canons_story.map((c) => [c.id, true]))
+                    );
+                  }}
+                />
                 <Button text="全解除" />
               </div>
             </div>
@@ -110,7 +123,6 @@ export default function LeftPane() {
               canons={canons_settings}
               selected_index={selected_index_settings}
               set_selected_index={set_selected_index_settings}
-              set_n_selected_items={set_n_selected_items_settings}
               is_ai_referenceds={is_ai_referenceds_settings}
               set_is_ai_referenceds={set_is_ai_referenceds_settings}
             />
@@ -120,7 +132,6 @@ export default function LeftPane() {
               canons={canons_story}
               selected_index={selected_index_story}
               set_selected_index={set_selected_index_story}
-              set_n_selected_items={set_n_selected_items_story}
               is_ai_referenceds={is_ai_referenceds_story}
               set_is_ai_referenceds={set_is_ai_referenceds_story}
             />
