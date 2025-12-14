@@ -19,7 +19,7 @@ export default function CenterPane() {
         </div>
       </Pane.Title>
       <Pane.Content className="flex-1 text-sm overflow-auto">
-        <textarea className="w-full border rounded-2xl min-h-130" />
+        <textarea className="w-full border rounded-2xl min-h-130 p-3.5 outline-0" />
       </Pane.Content>
     </Pane>
   );
