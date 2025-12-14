@@ -80,10 +80,11 @@ export default function RightPane() {
           border_color="accent/45"
           hover_border_color="accent/45"
           onClick={() => {
-            if (chat_input.trim() === "") return;
+            const trimed_chat_input = chat_input.trim();
+            if (trimed_chat_input === "") return;
             set_chat_messages((prev) => [
               ...prev,
-              { role: "user", content: chat_input },
+              { role: "user", content: trimed_chat_input },
             ]);
             set_chat_input("");
           }}
