@@ -22,7 +22,7 @@ export default function CanonContainer({
       onSelectedChange={set_selected_index}
       className="w-full space-y-2"
     >
-      {canons.map((canon, index) => (
+      {canons.map((canon) => (
         <SelectableCard key={canon.id} className="w-full">
           <Canon
             id={canon.id}
