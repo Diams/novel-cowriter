@@ -1,4 +1,5 @@
 import Image from "next/image";
+import CenterPane from "@/ui/center_pane";
 import LeftPane from "@/ui/left_pane";
 
 export default function Home() {
@@ -15,11 +16,13 @@ export default function Home() {
           <h1>Novel Co-Writer</h1>
         </div>
       </header>
-      <main className="grid grid-cols-[320px_1fr_420px] w-full flex-1 gap-3 p-3">
+      <main className="grid grid-cols-[320px_1fr_420px] w-full flex-1 gap-3 p-3 overflow-hidden">
         <section>
           <LeftPane />
         </section>
-        <section></section>
+        <section className="overflow-hidden">
+          <CenterPane />
+        </section>
         <section></section>
       </main>
     </div>
