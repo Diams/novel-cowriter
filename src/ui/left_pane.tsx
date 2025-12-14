@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Button from "@/components/actions/button";
+import Canon from "@/components/actions/canon";
 import SelectableCard from "@/components/actions/selectable_card";
 import Pane from "@/components/containers/pane";
 import SelectableCardContainer from "@/components/containers/selectable_card_container";
@@ -11,6 +12,10 @@ import Badge from "@/components/displays/badge";
 export default function LeftPane() {
   const [n_selected_items, set_n_selected_items] = useState<number>(0);
   const [selected_item, set_selected_item] = useState<number>(1);
+  const [is_ai_referenceds, set_is_ai_referenceds] = useState<boolean[]>([
+    false,
+    false,
+  ]);
 
   return (
     <Pane className="h-full bg-linear-to-b from-[rgba(16,24,40,0.72)] to-[rgba(16,24,40,0.5)] shadow-black/35 overflow-hidden">
@@ -41,13 +46,36 @@ export default function LeftPane() {
               onSelectedChange={set_selected_item}
             >
               <SelectableCard className="w-full">
-                <div>item1</div>
+                <Canon
+                  title="世界観 / テーマ"
+                  description="トーン・舞台・禁則"
+                  version={12}
+                  is_ai_referenced={is_ai_referenceds[0]}
+                  onAiReferencedChange={(checked) => {
+                    const new_states = [...is_ai_referenceds];
+                    new_states[0] = checked;
+                    set_is_ai_referenceds(new_states);
+                    set_n_selected_items(
+                      new_states.filter((state) => state).length
+                    );
+                  }}
+                />
               </SelectableCard>
               <SelectableCard className="w-full">
-                <div>item2</div>
-              </SelectableCard>
-              <SelectableCard className="w-full">
-                <div>item3</div>
+                <Canon
+                  title="人物設定"
+                  description="主人公/相棒/敵役"
+                  version={9}
+                  is_ai_referenced={is_ai_referenceds[1]}
+                  onAiReferencedChange={(checked) => {
+                    const new_states = [...is_ai_referenceds];
+                    new_states[1] = checked;
+                    set_is_ai_referenceds(new_states);
+                    set_n_selected_items(
+                      new_states.filter((state) => state).length
+                    );
+                  }}
+                />
               </SelectableCard>
             </SelectableCardContainer>
           </Tab.Content>
