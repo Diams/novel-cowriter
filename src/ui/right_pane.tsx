@@ -79,14 +79,83 @@ export default function RightPane() {
           hover_bg_color="accent/85"
           border_color="accent/45"
           hover_border_color="accent/45"
-          onClick={() => {
+          onClick={async () => {
             const trimed_chat_input = chat_input.trim();
             if (trimed_chat_input === "") return;
+
+            // ユーザーメッセージを追加
+            const new_user_message: ChatMessageData = {
+              role: "user",
+              content: trimed_chat_input,
+            };
+            set_chat_messages((prev) => [...prev, new_user_message]);
+            set_chat_input("");
+
+            // AIメッセージの初期化（空のメッセージを追加）
+            const ai_message_index = chat_messages.length + 1;
             set_chat_messages((prev) => [
               ...prev,
-              { role: "user", content: trimed_chat_input },
+              { role: "assistant", content: "" },
             ]);
-            set_chat_input("");
+
+            try {
+              // Chat APIを呼び出し
+              const response = await fetch("/api/chat", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                  messages: [...chat_messages, new_user_message],
+                }),
+              });
+
+              if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+              }
+
+              // ストリーミングレスポンスを処理
+              const reader = response.body?.getReader();
+              const decoder = new TextDecoder();
+
+              if (reader) {
+                let accumulated_content = "";
+
+                while (true) {
+                  const { done, value } = await reader.read();
+                  if (done) break;
+
+                  const chunk = decoder.decode(value);
+                  const lines = chunk.split("\n");
+
+                  for (const line of lines) {
+                    if (line.startsWith("data: ")) {
+                      const data = JSON.parse(line.slice(6));
+                      accumulated_content += data.content;
+
+                      // AIメッセージを更新
+                      set_chat_messages((prev) => {
+                        const new_messages = [...prev];
+                        new_messages[ai_message_index] = {
+                          role: "assistant",
+                          content: accumulated_content,
+                        };
+                        return new_messages;
+                      });
+                    }
+                  }
+                }
+              }
+            } catch (error) {
+              console.error("Error calling chat API:", error);
+              // エラーメッセージを表示
+              set_chat_messages((prev) => {
+                const new_messages = [...prev];
+                new_messages[ai_message_index] = {
+                  role: "assistant",
+                  content: "エラーが発生しました。もう一度お試しください。",
+                };
+                return new_messages;
+              });
+            }
           }}
         />
       </Pane.Content>
