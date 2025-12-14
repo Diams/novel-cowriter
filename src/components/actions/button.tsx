@@ -8,7 +8,7 @@ export default function Button({
   icon_size = 16,
   bg_color = "[#111C2F]/25",
   hover_bg_color = "[#111C2F]/80",
-  text_size = "xs",
+  text_size = 12,
   text_color = "white/92",
   border_color = "white/10",
   hover_border_color = "white/16",
@@ -19,7 +19,7 @@ export default function Button({
   icon_size?: number;
   bg_color?: string;
   hover_bg_color?: string;
-  text_size?: string;
+  text_size?: number;
   text_color?: string;
   border_color?: string;
   hover_border_color?: string;
@@ -30,8 +30,9 @@ export default function Button({
     : null;
   return (
     <button
-      className={`flex text-${text_size} border rounded-xl py-2 px-3 cursor-pointer hover:-translate-y-px transition-all duration-150`}
+      className={`flex border rounded-xl py-2 px-3 items-center align-middle cursor-pointer hover:-translate-y-px transition-all duration-150`}
       style={{
+        fontSize: `${text_size}px`,
         backgroundColor: parseColor(bg_color),
         color: parseColor(text_color),
         borderColor: parseColor(border_color),
