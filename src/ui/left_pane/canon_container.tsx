@@ -5,16 +5,16 @@ import { CanonData } from "@/utils/data_type";
 
 export default function CanonContainer({
   canons,
-  selected_index,
-  set_selected_index,
+  selected_canon,
+  set_selected_canon,
   is_ai_referenceds,
   set_is_ai_referenceds,
   onEdited,
   onDelete,
 }: {
   canons: CanonData[];
-  selected_index: number;
-  set_selected_index: (index: number) => void;
+  selected_canon: string;
+  set_selected_canon: (id: string) => void;
   is_ai_referenceds: { [id: string]: boolean };
   set_is_ai_referenceds: (states: { [id: string]: boolean }) => void;
   onEdited?: (id: string, new_title: string, new_description: string) => void;
@@ -22,8 +22,8 @@ export default function CanonContainer({
 }) {
   return (
     <SelectableCardContainer
-      default_selected={selected_index}
-      onSelectedChange={set_selected_index}
+      default_selected={canons.findIndex((c) => c.id === selected_canon)}
+      onSelectedChange={(index: number) => set_selected_canon(canons[index].id)}
       className="w-full space-y-2"
     >
       {canons.map((canon) => (

@@ -34,12 +34,11 @@ export default function LeftPane() {
     "settings" | "story"
   >(default_tab_value);
   const [canons_settings, set_canons_settings] = useState<CanonData[]>([]);
-  const [selected_index_settings, set_selected_index_settings] =
-    useState<number>(0);
+  const [selected_settings, set_selected_settings] = useState<string>("");
   const [is_ai_referenceds_settings, set_is_ai_referenceds_settings] =
     useState<{ [id: string]: boolean }>({});
   const [canons_story, set_canons_story] = useState<CanonData[]>([]);
-  const [selected_index_story, set_selected_index_story] = useState<number>(0);
+  const [selected_story, set_selected_story] = useState<string>("");
   const [is_ai_referenceds_story, set_is_ai_referenceds_story] = useState<{
     [id: string]: boolean;
   }>({});
@@ -129,8 +128,8 @@ export default function LeftPane() {
           <Tab.Content value="settings">
             <CanonContainer
               canons={canons_settings}
-              selected_index={selected_index_settings}
-              set_selected_index={set_selected_index_settings}
+              selected_canon={selected_settings}
+              set_selected_canon={set_selected_settings}
               is_ai_referenceds={is_ai_referenceds_settings}
               set_is_ai_referenceds={set_is_ai_referenceds_settings}
               onEdited={(id: string, new_title: string, new_description) => {
@@ -153,8 +152,8 @@ export default function LeftPane() {
           <Tab.Content value="story">
             <CanonContainer
               canons={canons_story}
-              selected_index={selected_index_story}
-              set_selected_index={set_selected_index_story}
+              selected_canon={selected_story}
+              set_selected_canon={set_selected_story}
               is_ai_referenceds={is_ai_referenceds_story}
               set_is_ai_referenceds={set_is_ai_referenceds_story}
               onEdited={(id: string, new_title: string, new_description) => {
