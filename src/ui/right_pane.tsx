@@ -19,46 +19,32 @@ export default function RightPane() {
   const [ai_referenceds, set_ai_referenceds] = useState<CanonData[]>([]);
   const [chat_messages, set_chat_messages] = useState<ChatMessageData[]>([
     {
-      role: "user",
-      content: "ここにチャットログが表示されます。緑色はユーザの発言です。",
-    },
-    {
-      role: "assistant",
-      content: "ここにチャットログが表示されます。紫色はAIの発言です。",
-    },
-    {
-      role: "user",
-      content: "ここにチャットログが表示されます。緑色はユーザの発言です。",
-    },
-    {
-      role: "assistant",
-      content: "ここにチャットログが表示されます。紫色はAIの発言です。",
-    },
-    {
-      role: "user",
-      content: "ここにチャットログが表示されます。緑色はユーザの発言です。",
-    },
-    {
-      role: "assistant",
-      content: "ここにチャットログが表示されます。紫色はAIの発言です。",
-    },
-    {
-      role: "user",
-      content: "ここにチャットログが表示されます。緑色はユーザの発言です。",
-    },
-    {
-      role: "assistant",
-      content: "ここにチャットログが表示されます。紫色はAIの発言です。",
-    },
-    {
-      role: "user",
-      content: "ここにチャットログが表示されます。緑色はユーザの発言です。",
-    },
-    {
-      role: "assistant",
-      content: "ここにチャットログが表示されます。紫色はAIの発言です。",
+      role: "system",
+      content: `You are a writing assistant for a novel.
+
+The following materials are CANON:
+- Settings
+- Story (finalized chapters)
+
+Rules:
+- You must NOT modify, rewrite, or contradict any canon material.
+- You may only reference canon materials when making suggestions.
+- All changes must be proposed as suggestions for the user's Draft.
+- If you detect inconsistencies or contradictions with canon, clearly point them out.
+
+Your role:
+- Help the user improve their Draft.
+- Propose new text, revisions, or ideas as suggestions.
+- Respect the requested tone, style, and length.
+
+Output:
+- Write all outputs in Japanese unless explicitly requested otherwise.
+- Do not present canon text as if you wrote it.
+- Do not assume missing information; note uncertainties when needed.
+`,
     },
   ]);
+  const [chat_input, set_chat_input] = useState<string>("");
   useEffect(() => {
     const new_ai_referenced_keys: string[] = [];
     new_ai_referenced_keys.push(
@@ -108,13 +94,95 @@ export default function RightPane() {
         </div>
       </Pane.Content>
       <Pane.Content className="text-sm gap-2">
-        <textarea className="w-full border rounded-2xl p-3.5 outline-0" />
+        <textarea
+          value={chat_input}
+          onChange={(e) => set_chat_input(e.target.value)}
+          className="w-full border rounded-2xl p-3.5 outline-0"
+        />
         <Button
           text="送信"
           bg_color="accent/95"
           hover_bg_color="accent/85"
           border_color="accent/45"
           hover_border_color="accent/45"
+          onClick={async () => {
+            const trimed_chat_input = chat_input.trim();
+            if (trimed_chat_input === "") return;
+
+            // ユーザーメッセージを追加
+            const new_user_message: ChatMessageData = {
+              role: "user",
+              content: trimed_chat_input,
+            };
+            set_chat_messages((prev) => [...prev, new_user_message]);
+            set_chat_input("");
+
+            // AIメッセージの初期化（空のメッセージを追加）
+            const ai_message_index = chat_messages.length + 1;
+            set_chat_messages((prev) => [
+              ...prev,
+              { role: "assistant", content: "" },
+            ]);
+
+            try {
+              // Chat APIを呼び出し
+              const response = await fetch("/api/chat", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                  messages: [...chat_messages, new_user_message],
+                }),
+              });
+
+              if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+              }
+
+              // ストリーミングレスポンスを処理
+              const reader = response.body?.getReader();
+              const decoder = new TextDecoder();
+
+              if (reader) {
+                let accumulated_content = "";
+
+                while (true) {
+                  const { done, value } = await reader.read();
+                  if (done) break;
+
+                  const chunk = decoder.decode(value);
+                  const lines = chunk.split("\n");
+
+                  for (const line of lines) {
+                    if (line.startsWith("data: ")) {
+                      const data = JSON.parse(line.slice(6));
+                      accumulated_content += data.content;
+
+                      // AIメッセージを更新
+                      set_chat_messages((prev) => {
+                        const new_messages = [...prev];
+                        new_messages[ai_message_index] = {
+                          role: "assistant",
+                          content: accumulated_content,
+                        };
+                        return new_messages;
+                      });
+                    }
+                  }
+                }
+              }
+            } catch (error) {
+              console.error("Error calling chat API:", error);
+              // エラーメッセージを表示
+              set_chat_messages((prev) => {
+                const new_messages = [...prev];
+                new_messages[ai_message_index] = {
+                  role: "assistant",
+                  content: "エラーが発生しました。もう一度お試しください。",
+                };
+                return new_messages;
+              });
+            }
+          }}
         />
       </Pane.Content>
     </Pane>
