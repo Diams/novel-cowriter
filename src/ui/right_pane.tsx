@@ -120,6 +120,14 @@ export default function RightPane() {
           hover_bg_color="accent/85"
           border_color="accent/45"
           hover_border_color="accent/45"
+          onClick={() => {
+            if (chat_input.trim() === "") return;
+            set_chat_messages((prev) => [
+              ...prev,
+              { role: "user", content: chat_input },
+            ]);
+            set_chat_input("");
+          }}
         />
       </Pane.Content>
     </Pane>
