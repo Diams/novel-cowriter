@@ -4,7 +4,10 @@ import { useEffect, useState } from "react";
 import Button from "@/components/actions/button";
 import Pane from "@/components/containers/pane";
 import Badge from "@/components/displays/badge";
-import { GetCanonById } from "@/utils/data_accessor/canon_data_accessor";
+import {
+  GetCanonById,
+  UpdateCanon,
+} from "@/utils/data_accessor/canon_data_accessor";
 import { useCurrentTabStore } from "@/utils/stores/current_tab_store";
 import { useSelectedCanonStore } from "@/utils/stores/selected_canon_store";
 
@@ -51,7 +54,19 @@ export default function CenterPane() {
             text_size={13}
             text_color="white/85"
           />
-          <Button text="保存" />
+          <Button
+            text="保存"
+            onClick={() => {
+              UpdateCanon(
+                current_tab_value === "settings"
+                  ? selected_settings
+                  : selected_story,
+                {
+                  content: selected_canon_content,
+                }
+              );
+            }}
+          />
           <Button text="クリア" />
         </div>
       </Pane.Title>
