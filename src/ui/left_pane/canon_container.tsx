@@ -9,12 +9,14 @@ export default function CanonContainer({
   set_selected_index,
   is_ai_referenceds,
   set_is_ai_referenceds,
+  onEdited,
 }: {
   canons: CanonData[];
   selected_index: number;
   set_selected_index: (index: number) => void;
   is_ai_referenceds: { [id: string]: boolean };
   set_is_ai_referenceds: (states: { [id: string]: boolean }) => void;
+  onEdited?: (id: string, new_title: string, new_description: string) => void;
 }) {
   return (
     <SelectableCardContainer
@@ -34,6 +36,15 @@ export default function CanonContainer({
               const new_states = { ...is_ai_referenceds };
               new_states[canon.id] = checked;
               set_is_ai_referenceds(new_states);
+            }}
+            onClickEdit={() => {
+              const new_title = prompt("タイトルを編集", canon.title);
+              if (new_title) {
+                const new_description = prompt("説明を編集", canon.description);
+                if (new_description) {
+                  onEdited?.(canon.id, new_title, new_description);
+                }
+              }
             }}
           />
         </SelectableCard>
