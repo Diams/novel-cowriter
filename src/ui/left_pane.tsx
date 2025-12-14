@@ -142,8 +142,8 @@ export default function LeftPane() {
               onDelete={(id: string) => {
                 DeleteCanon(id);
                 set_is_ai_referenceds_settings((prev) => ({
-                  [id]: false,
                   ...prev,
+                  [id]: false,
                 }));
                 if (id === selected_settings) {
                   const updated = canons_settings.filter((c) => c.id !== id);
@@ -170,8 +170,8 @@ export default function LeftPane() {
               onDelete={(id: string) => {
                 DeleteCanon(id);
                 set_is_ai_referenceds_story((prev) => ({
-                  [id]: false,
                   ...prev,
+                  [id]: false,
                 }));
                 if (id === selected_story) {
                   const updated = canons_story.filter((c) => c.id !== id);
