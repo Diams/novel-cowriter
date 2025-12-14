@@ -6,3 +6,8 @@ export interface CanonData {
   content: string;
   type: "settings" | "story";
 }
+
+export interface ChatMessageData {
+  role: "user" | "assistant" | "system";
+  content: string;
+}
