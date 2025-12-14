@@ -3,6 +3,7 @@ import {
   cloneElement,
   ComponentProps,
   ReactElement,
+  useEffect,
   useState,
 } from "react";
 import SelectableCard from "@/components/actions/selectable_card";
@@ -14,20 +15,32 @@ type SelectableCardElement = ReactElement<
 export default function SelectableCardContainer({
   children,
   default_selected = 0,
+  selected,
   className = "",
   onSelectedChange,
 }: {
   children?: SelectableCardElement | SelectableCardElement[];
   default_selected?: number;
+  selected?: number;
   className?: string;
   onSelectedChange?: (selectedIndex: number) => void;
 }) {
-  const [selected_index, set_selected_index] =
-    useState<number>(default_selected);
+  const [selected_index, set_selected_index] = useState<number>(
+    selected ?? default_selected
+  );
   const handle_select = (index: number) => {
-    set_selected_index(index);
+    // selected propが渡されていない場合のみ内部stateを更新（非制御モード）
+    if (selected === undefined) {
+      set_selected_index(index);
+    }
     onSelectedChange?.(index);
   };
+  // selected propが変更されたら内部stateも更新
+  useEffect(() => {
+    if (selected !== undefined) {
+      set_selected_index(selected);
+    }
+  }, [selected]);
   return (
     <div className={className}>
       {Children.map(children, (child, index) => {
