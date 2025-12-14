@@ -18,7 +18,7 @@ export default function CanonContainer({
   is_ai_referenceds: { [id: string]: boolean };
   set_is_ai_referenceds: (states: { [id: string]: boolean }) => void;
   onEdited?: (id: string, new_title: string, new_description: string) => void;
-  onDelete?: (id: string) => void;
+  onDelete?: (id: string, type: "settings" | "story") => void;
 }) {
   return (
     <SelectableCardContainer
@@ -53,7 +53,7 @@ export default function CanonContainer({
                 `「${canon.title}」を削除しますか？\n（AI参照チェックも解除されます）`
               );
               if (!ok) return;
-              onDelete?.(canon.id);
+              onDelete?.(canon.id, canon.type);
             }}
           />
         </SelectableCard>
