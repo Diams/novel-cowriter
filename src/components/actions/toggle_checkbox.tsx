@@ -26,6 +26,7 @@ export default function ToggleCheckbox({
         color: parseColor(text_color),
         borderColor: parseColor(border_color),
       }}
+      onClick={(e) => e.stopPropagation()}
     >
       <label className="flex items-center gap-1.5">
         <input
