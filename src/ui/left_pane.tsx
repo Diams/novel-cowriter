@@ -114,7 +114,13 @@ export default function LeftPane() {
                     );
                   }}
                 />
-                <Button text="全解除" />
+                <Button
+                  text="全解除"
+                  onClick={() => {
+                    set_is_ai_referenceds_settings({});
+                    set_is_ai_referenceds_story({});
+                  }}
+                />
               </div>
             </div>
           </Tab.CommonContent>
