@@ -53,13 +53,23 @@ export default function LeftPane() {
   const [is_ai_referenceds_story, set_is_ai_referenceds_story] = useState<{
     [id: string]: boolean;
   }>({});
-  const handle_update_canons = () => {
+  const handle_update_canons = (): {
+    canons_settings: CanonData[];
+    canons_story: CanonData[];
+  } => {
     const canons_settings = GetCanonsByType("settings");
     const canons_story = GetCanonsByType("story");
     set_canons_settings(canons_settings);
     set_canons_story(canons_story);
+    return { canons_settings, canons_story };
   };
-  useEffect(handle_update_canons, []);
+  useEffect(() => {
+    const { canons_settings, canons_story } = handle_update_canons();
+    set_selected_settings(
+      canons_settings.length > 0 ? canons_settings[0].id : ""
+    );
+    set_selected_story(canons_story.length > 0 ? canons_story[0].id : "");
+  }, []);
   return (
     <Pane className="h-full bg-linear-to-b from-[rgba(16,24,40,0.72)] to-[rgba(16,24,40,0.5)] shadow-black/35 overflow-hidden">
       <Pane.Title className="bg-[rgba(15,23,42,0.55)]">
