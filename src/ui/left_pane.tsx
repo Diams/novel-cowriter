@@ -12,6 +12,8 @@ import {
   UpdateCanon,
 } from "@/utils/data_accessor/canon_data_accessor";
 import { CanonData } from "@/utils/data_type";
+import { useCurrentTabStore } from "@/utils/stores/current_tab_store";
+import { useSelectedCanonStore } from "@/utils/stores/selected_canon_store";
 import CanonContainer from "./left_pane/canon_container";
 
 export default function LeftPane() {
@@ -30,15 +32,24 @@ export default function LeftPane() {
       description: "確定稿（新規）",
     },
   };
-  const [current_tab_value, set_current_tab_value] = useState<
-    "settings" | "story"
-  >(default_tab_value);
+  const current_tab_value = useCurrentTabStore((state) => state.current_tab);
+  const set_current_tab_value = useCurrentTabStore(
+    (state) => state.set_current_tab
+  );
   const [canons_settings, set_canons_settings] = useState<CanonData[]>([]);
-  const [selected_settings, set_selected_settings] = useState<string>("");
+  const selected_settings = useSelectedCanonStore(
+    (state) => state.selected_settings
+  );
+  const set_selected_settings = useSelectedCanonStore(
+    (state) => state.set_selected_settings
+  );
   const [is_ai_referenceds_settings, set_is_ai_referenceds_settings] =
     useState<{ [id: string]: boolean }>({});
   const [canons_story, set_canons_story] = useState<CanonData[]>([]);
-  const [selected_story, set_selected_story] = useState<string>("");
+  const selected_story = useSelectedCanonStore((state) => state.selected_story);
+  const set_selected_story = useSelectedCanonStore(
+    (state) => state.set_selected_story
+  );
   const [is_ai_referenceds_story, set_is_ai_referenceds_story] = useState<{
     [id: string]: boolean;
   }>({});
