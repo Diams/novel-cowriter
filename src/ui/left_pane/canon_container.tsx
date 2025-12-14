@@ -20,10 +20,15 @@ export default function CanonContainer({
   onEdited?: (id: string, new_title: string, new_description: string) => void;
   onDelete?: (id: string, type: "settings" | "story") => void;
 }) {
+  const selected_index = canons.findIndex((c) => c.id === selected_canon);
   return (
     <SelectableCardContainer
-      default_selected={canons.findIndex((c) => c.id === selected_canon)}
-      onSelectedChange={(index: number) => set_selected_canon(canons[index].id)}
+      selected={selected_index >= 0 ? selected_index : 0}
+      onSelectedChange={(index: number) => {
+        if (canons[index]) {
+          set_selected_canon(canons[index].id);
+        }
+      }}
       className="w-full space-y-2"
     >
       {canons.map((canon) => (

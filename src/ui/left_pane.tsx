@@ -100,6 +100,7 @@ export default function LeftPane() {
                       });
                     }
                     handle_update_canons();
+                    console.log(selected_story);
                   }}
                 />
                 <Button
@@ -141,11 +142,15 @@ export default function LeftPane() {
               }}
               onDelete={(id: string) => {
                 DeleteCanon(id);
-                handle_update_canons();
                 set_is_ai_referenceds_settings((prev) => ({
                   [id]: false,
                   ...prev,
                 }));
+                if (id === selected_settings) {
+                  const updated = canons_settings.filter((c) => c.id !== id);
+                  set_selected_settings(updated[0].id);
+                }
+                handle_update_canons();
               }}
             />
           </Tab.Content>
@@ -165,11 +170,15 @@ export default function LeftPane() {
               }}
               onDelete={(id: string) => {
                 DeleteCanon(id);
-                handle_update_canons();
                 set_is_ai_referenceds_story((prev) => ({
                   [id]: false,
                   ...prev,
                 }));
+                if (id === selected_story) {
+                  const updated = canons_story.filter((c) => c.id !== id);
+                  set_selected_story(updated[0].id);
+                }
+                handle_update_canons();
               }}
             />
           </Tab.Content>
