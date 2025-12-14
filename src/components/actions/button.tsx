@@ -5,6 +5,7 @@ import { parseColor } from "@/utils/functions";
 export default function Button({
   text = "button",
   icon_name,
+  icon_size = 16,
   bg_color = "[#111C2F]/25",
   hover_bg_color = "[#111C2F]/80",
   text_size = "xs",
@@ -15,6 +16,7 @@ export default function Button({
 }: {
   text?: string;
   icon_name?: keyof typeof TablerIcons;
+  icon_size?: number;
   bg_color?: string;
   hover_bg_color?: string;
   text_size?: string;
@@ -44,7 +46,7 @@ export default function Button({
       }}
       onClick={onClick}
     >
-      {Icon && <Icon size={16} />}
+      {Icon && <Icon size={icon_size} />}
       {text}
     </button>
   );
