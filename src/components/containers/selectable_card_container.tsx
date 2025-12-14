@@ -35,7 +35,11 @@ export default function SelectableCardContainer({
 
         return cloneElement(child, {
           is_selected: selected_index === index,
-          onClick: (e: React.MouseEvent<HTMLButtonElement>) => {
+          onClick: (
+            e:
+              | React.MouseEvent<HTMLDivElement>
+              | React.KeyboardEvent<HTMLDivElement>
+          ) => {
             handle_select(index);
             child.props.onClick?.(e);
           },
