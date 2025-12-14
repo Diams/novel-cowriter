@@ -7,6 +7,7 @@
   --text: rgba(255, 255, 255, 0.92);
   --accent: #7c3aed;
   --good: #22c55e;
+  --danger: #ef4444;
   --shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
   --radius2: 22px;
   --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
@@ -20,7 +21,8 @@
   --color-background: var(--background);
   --color-foreground: var(--text);
   --color-muted: var(--muted);
-  --color-good: var(var(--good));
+  --color-good: var(--good);
+  --color-danger: var(--danger);
   --color-border: var(--border);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);

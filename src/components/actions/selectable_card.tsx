@@ -1,4 +1,4 @@
-import { MouseEvent } from "react";
+import { KeyboardEvent, MouseEvent } from "react";
 import { parseColor } from "@/utils/functions";
 
 export default function SelectableCard({
@@ -26,10 +26,14 @@ export default function SelectableCard({
   selected_border_color?: string;
   is_selected?: boolean;
   className?: string;
-  onClick?: (e: MouseEvent<HTMLButtonElement>) => void;
+  onClick?: (
+    e: MouseEvent<HTMLDivElement> | KeyboardEvent<HTMLDivElement>
+  ) => void;
 }) {
   return (
-    <button
+    <div
+      role="button"
+      tabIndex={0}
       className={`flex border rounded-xl py-2 px-3 cursor-pointer hover:-translate-y-px transition-all duration-150 ${className}`}
       style={{
         fontSize: `${text_size}px`,
@@ -56,8 +60,13 @@ export default function SelectableCard({
         );
       }}
       onClick={onClick}
+      onKeyDown={(e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          onClick?.(e);
+        }
+      }}
     >
       {children}
-    </button>
+    </div>
   );
 }
