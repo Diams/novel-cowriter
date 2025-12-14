@@ -16,6 +16,7 @@ export default function LeftPane() {
       description: "トーン・舞台・禁則",
       version: 12,
       content: "",
+      type: "settings",
     },
     {
       id: crypto.randomUUID(),
@@ -23,6 +24,7 @@ export default function LeftPane() {
       description: "主人公/相棒/敵役",
       version: 9,
       content: "",
+      type: "settings",
     },
   ];
   const [selected_index_settings, set_selected_index_settings] =
@@ -39,6 +41,7 @@ export default function LeftPane() {
       description: "確定稿（抜粋）",
       version: 12,
       content: "",
+      type: "story",
     },
     {
       id: crypto.randomUUID(),
@@ -46,6 +49,7 @@ export default function LeftPane() {
       description: "確定稿（抜粋）",
       version: 9,
       content: "",
+      type: "story",
     },
     {
       id: crypto.randomUUID(),
@@ -53,6 +57,7 @@ export default function LeftPane() {
       description: "確定稿（抜粋）",
       version: 1,
       content: "",
+      type: "story",
     },
   ];
   const [selected_index_story, set_selected_index_story] = useState<number>(0);
