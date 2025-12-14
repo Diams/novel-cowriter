@@ -59,6 +59,7 @@ export default function RightPane() {
       content: "ここにチャットログが表示されます。紫色はAIの発言です。",
     },
   ]);
+  const [chat_input, set_chat_input] = useState<string>("");
   useEffect(() => {
     const new_ai_referenced_keys: string[] = [];
     new_ai_referenced_keys.push(
@@ -108,7 +109,11 @@ export default function RightPane() {
         </div>
       </Pane.Content>
       <Pane.Content className="text-sm gap-2">
-        <textarea className="w-full border rounded-2xl p-3.5 outline-0" />
+        <textarea
+          value={chat_input}
+          onChange={(e) => set_chat_input(e.target.value)}
+          className="w-full border rounded-2xl p-3.5 outline-0"
+        />
         <Button
           text="送信"
           bg_color="accent/95"
