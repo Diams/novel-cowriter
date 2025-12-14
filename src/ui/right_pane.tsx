@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import Button from "@/components/actions/button";
 import Pane from "@/components/containers/pane";
 import Badge from "@/components/displays/badge";
+import RoleContentCard from "@/components/displays/role_content_card";
 import { GetCanonById } from "@/utils/data_accessor/canon_data_accessor";
 import { CanonData } from "@/utils/data_type";
 import { useAIReferencesStore } from "@/utils/stores/ai_referrences_store";
@@ -61,10 +62,12 @@ export default function RightPane() {
       <Pane.Content className="flex flex-col flex-1 text-sm overflow-hidden gap-3">
         <h2 className="text-xs font-extrabold">チャットログ</h2>
         <div className="overflow-auto space-y-2">
-          <div className="bg-good/8 text-xs border border-good/35 rounded-xl py-2 px-3 space-y-2">
-            <h3 className="font-extrabold">あなた</h3>
-            <p>ここにチャットログが表示されます。緑色はユーザの発言です。</p>
-          </div>
+          <RoleContentCard
+            role="あなた"
+            className="bg-good/8 text-xs border border-good/35 rounded-xl py-2 px-3 space-y-2"
+          >
+            ここにチャットログが表示されます。緑色はユーザの発言です。
+          </RoleContentCard>
           <div className="bg-accent/8 text-xs border border-accent/35 rounded-xl py-2 px-3 space-y-2">
             <h3 className="font-extrabold">AIアシスタント</h3>
             <p>ここにチャットログが表示されます。紫色はAIの発言です。</p>
