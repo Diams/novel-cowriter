@@ -17,48 +17,7 @@ export default function RightPane() {
     (state) => state.ai_referenced_story
   );
   const [ai_referenceds, set_ai_referenceds] = useState<CanonData[]>([]);
-  const [chat_messages, set_chat_messages] = useState<ChatMessageData[]>([
-    {
-      role: "user",
-      content: "ここにチャットログが表示されます。緑色はユーザの発言です。",
-    },
-    {
-      role: "assistant",
-      content: "ここにチャットログが表示されます。紫色はAIの発言です。",
-    },
-    {
-      role: "user",
-      content: "ここにチャットログが表示されます。緑色はユーザの発言です。",
-    },
-    {
-      role: "assistant",
-      content: "ここにチャットログが表示されます。紫色はAIの発言です。",
-    },
-    {
-      role: "user",
-      content: "ここにチャットログが表示されます。緑色はユーザの発言です。",
-    },
-    {
-      role: "assistant",
-      content: "ここにチャットログが表示されます。紫色はAIの発言です。",
-    },
-    {
-      role: "user",
-      content: "ここにチャットログが表示されます。緑色はユーザの発言です。",
-    },
-    {
-      role: "assistant",
-      content: "ここにチャットログが表示されます。紫色はAIの発言です。",
-    },
-    {
-      role: "user",
-      content: "ここにチャットログが表示されます。緑色はユーザの発言です。",
-    },
-    {
-      role: "assistant",
-      content: "ここにチャットログが表示されます。紫色はAIの発言です。",
-    },
-  ]);
+  const [chat_messages, set_chat_messages] = useState<ChatMessageData[]>([]);
   const [chat_input, set_chat_input] = useState<string>("");
   useEffect(() => {
     const new_ai_referenced_keys: string[] = [];
