@@ -51,3 +51,45 @@ body {
     @apply border-border;
   }
 }
+
+/* =========================
+   Scrollbar theme (dark, subtle)
+   - Chromium/Safari: ::-webkit-scrollbar
+   - Firefox: scrollbar-color / scrollbar-width
+   ========================= */
+
+/* Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.22) rgba(17, 28, 47, 0.35);
+}
+
+/* Chromium / Safari */
+*::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+*::-webkit-scrollbar-track {
+  background: rgba(17, 28, 47, 0.35);
+  border-radius: 999px;
+}
+
+*::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.18);
+  border-radius: 999px;
+  border: 2px solid rgba(17, 28, 47, 0.35); /* trackと馴染ませる */
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.28);
+}
+
+*::-webkit-scrollbar-thumb:active {
+  background: rgba(255, 255, 255, 0.34);
+}
+
+/* コーナー（横/縦スクロールが両方出た時の角） */
+*::-webkit-scrollbar-corner {
+  background: rgba(17, 28, 47, 0.35);
+}
