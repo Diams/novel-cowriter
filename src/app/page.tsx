@@ -1,6 +1,7 @@
 import Image from "next/image";
 import CenterPane from "@/ui/center_pane";
 import LeftPane from "@/ui/left_pane";
+import RightPane from "@/ui/right_pane";
 
 export default function Home() {
   return (
@@ -23,7 +24,9 @@ export default function Home() {
         <section className="overflow-hidden">
           <CenterPane />
         </section>
-        <section></section>
+        <section className="overflow-hidden">
+          <RightPane />
+        </section>
       </main>
     </div>
   );
