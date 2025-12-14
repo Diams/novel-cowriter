@@ -1,4 +1,4 @@
-interface CanonData {
+export interface CanonData {
   id: string;
   title: string;
   description: string;
