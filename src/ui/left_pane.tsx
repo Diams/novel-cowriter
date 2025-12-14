@@ -2,20 +2,65 @@
 
 import { useState } from "react";
 import Button from "@/components/actions/button";
-import Canon from "@/components/actions/canon";
-import SelectableCard from "@/components/actions/selectable_card";
 import Pane from "@/components/containers/pane";
-import SelectableCardContainer from "@/components/containers/selectable_card_container";
 import Tab from "@/components/containers/tab";
 import Badge from "@/components/displays/badge";
+import { CanonData } from "@/utils/data_type";
+import CanonContainer from "./left_pane/canon_container";
 
 export default function LeftPane() {
-  const [n_selected_items, set_n_selected_items] = useState<number>(0);
-  const [selected_item, set_selected_item] = useState<number>(1);
-  const [is_ai_referenceds, set_is_ai_referenceds] = useState<boolean[]>([
-    false,
-    false,
-  ]);
+  const canons_settings: CanonData[] = [
+    {
+      id: crypto.randomUUID(),
+      title: "世界観 / テーマ",
+      description: "トーン・舞台・禁則",
+      version: 12,
+      content: "",
+    },
+    {
+      id: crypto.randomUUID(),
+      title: "人物設定",
+      description: "主人公/相棒/敵役",
+      version: 9,
+      content: "",
+    },
+  ];
+  const [selected_index_settings, set_selected_index_settings] =
+    useState<number>(0);
+  const [n_selected_items_settings, set_n_selected_items_settings] =
+    useState<number>(0);
+  const [is_ai_referenceds_settings, set_is_ai_referenceds_settings] = useState<
+    boolean[]
+  >([false, false]);
+  const canons_story: CanonData[] = [
+    {
+      id: crypto.randomUUID(),
+      title: "第1章：霧の駅",
+      description: "確定稿（抜粋）",
+      version: 12,
+      content: "",
+    },
+    {
+      id: crypto.randomUUID(),
+      title: "第2章：合言葉",
+      description: "確定稿（抜粋）",
+      version: 9,
+      content: "",
+    },
+    {
+      id: crypto.randomUUID(),
+      title: "第3章：夜の取引",
+      description: "確定稿（抜粋）",
+      version: 1,
+      content: "",
+    },
+  ];
+  const [selected_index_story, set_selected_index_story] = useState<number>(0);
+  const [n_selected_items_story, set_n_selected_items_story] =
+    useState<number>(0);
+  const [is_ai_referenceds_story, set_is_ai_referenceds_story] = useState<
+    boolean[]
+  >([false, false, false]);
 
   return (
     <Pane className="h-full bg-linear-to-b from-[rgba(16,24,40,0.72)] to-[rgba(16,24,40,0.5)] shadow-black/35 overflow-hidden">
@@ -31,7 +76,11 @@ export default function LeftPane() {
           <Tab.CommonContent>
             <div className="space-y-2">
               <div>
-                <Badge text={`AI参照：${n_selected_items}件`} />
+                <Badge
+                  text={`AI参照：${
+                    n_selected_items_settings + n_selected_items_story
+                  }件`}
+                />
               </div>
               <div className="flex justify-end items-center gap-2">
                 <Button text="追加" icon_name="IconPlus" />
@@ -41,46 +90,24 @@ export default function LeftPane() {
             </div>
           </Tab.CommonContent>
           <Tab.Content value="settings">
-            <SelectableCardContainer
-              className="w-full space-y-2"
-              onSelectedChange={set_selected_item}
-            >
-              <SelectableCard className="w-full">
-                <Canon
-                  title="世界観 / テーマ"
-                  description="トーン・舞台・禁則"
-                  version={12}
-                  is_ai_referenced={is_ai_referenceds[0]}
-                  onAiReferencedChange={(checked) => {
-                    const new_states = [...is_ai_referenceds];
-                    new_states[0] = checked;
-                    set_is_ai_referenceds(new_states);
-                    set_n_selected_items(
-                      new_states.filter((state) => state).length
-                    );
-                  }}
-                />
-              </SelectableCard>
-              <SelectableCard className="w-full">
-                <Canon
-                  title="人物設定"
-                  description="主人公/相棒/敵役"
-                  version={9}
-                  is_ai_referenced={is_ai_referenceds[1]}
-                  onAiReferencedChange={(checked) => {
-                    const new_states = [...is_ai_referenceds];
-                    new_states[1] = checked;
-                    set_is_ai_referenceds(new_states);
-                    set_n_selected_items(
-                      new_states.filter((state) => state).length
-                    );
-                  }}
-                />
-              </SelectableCard>
-            </SelectableCardContainer>
+            <CanonContainer
+              canons={canons_settings}
+              selected_index={selected_index_settings}
+              set_selected_index={set_selected_index_settings}
+              set_n_selected_items={set_n_selected_items_settings}
+              is_ai_referenceds={is_ai_referenceds_settings}
+              set_is_ai_referenceds={set_is_ai_referenceds_settings}
+            />
           </Tab.Content>
           <Tab.Content value="story">
-            <p>This is the content of Tab 2.</p>
+            <CanonContainer
+              canons={canons_story}
+              selected_index={selected_index_story}
+              set_selected_index={set_selected_index_story}
+              set_n_selected_items={set_n_selected_items_story}
+              is_ai_referenceds={is_ai_referenceds_story}
+              set_is_ai_referenceds={set_is_ai_referenceds_story}
+            />
           </Tab.Content>
         </Tab>
       </Pane.Content>
