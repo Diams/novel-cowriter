@@ -8,13 +8,15 @@ export default function ChatMessageContainer({
 }) {
   return (
     <>
-      {chat_message.map((message, index) => (
-        <ChatMessage
-          key={index + "-" + message.role + "-" + message.content}
-          role={message.role as "user" | "assistant"}
-          content={message.content}
-        />
-      ))}
+      {chat_message
+        .filter((message) => message.role !== "system")
+        .map((message, index) => (
+          <ChatMessage
+            key={index + "-" + message.role + "-" + message.content}
+            role={message.role as "user" | "assistant"}
+            content={message.content}
+          />
+        ))}
     </>
   );
 }
