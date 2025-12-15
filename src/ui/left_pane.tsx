@@ -84,10 +84,16 @@ export default function LeftPane() {
   }, []);
   useEffect(() => {
     const { canons_settings, canons_story } = handle_update_canons();
-    set_selected_settings(
-      canons_settings.length > 0 ? canons_settings[0].id : ""
-    );
-    set_selected_story(canons_story.length > 0 ? canons_story[0].id : "");
+    // 現在選択されているsettingsがリストに存在しない場合のみ、最初の要素を選択
+    if (!canons_settings.find((c) => c.id === selected_settings)) {
+      set_selected_settings(
+        canons_settings.length > 0 ? canons_settings[0].id : ""
+      );
+    }
+    // 現在選択されているstoryがリストに存在しない場合のみ、最初の要素を選択
+    if (!canons_story.find((c) => c.id === selected_story)) {
+      set_selected_story(canons_story.length > 0 ? canons_story[0].id : "");
+    }
   }, [refresh_trigger]);
   return (
     <Pane className="flex flex-col h-full bg-linear-to-b from-[rgba(16,24,40,0.72)] to-[rgba(16,24,40,0.5)] shadow-black/35 overflow-hidden">
