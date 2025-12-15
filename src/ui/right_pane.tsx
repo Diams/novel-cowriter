@@ -139,6 +139,21 @@ Output:
               role: "user",
               content: trimed_chat_input,
             };
+            // 参照中のCanonを取得
+            const referenced_chat_message: ChatMessageData[] =
+              ai_referenceds.map((canon) => {
+                const chat_message_canon: string = `
+[REFERENCE: ${canon.type === "settings" ? "SETTINGS" : "STORY"}]
+
+Item: ${canon.title}
+Revision: v${canon.version}
+
+<BEGIN CANON ${canon.type === "settings" ? "SETTINGS" : "STORY"}>
+${canon.content}
+<END CANON ${canon.type === "settings" ? "SETTINGS" : "STORY"}>
+`.trim();
+                return { role: "user", content: chat_message_canon };
+              });
             set_chat_messages((prev) => [...prev, new_user_message]);
             set_chat_input("");
 
@@ -155,7 +170,11 @@ Output:
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
-                  messages: [...chat_messages, new_user_message],
+                  messages: [
+                    ...chat_messages,
+                    new_user_message,
+                    ...referenced_chat_message,
+                  ],
                 }),
               });
 
