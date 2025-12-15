@@ -18,7 +18,7 @@ export default function Home() {
         </div>
       </header>
       <main className="grid grid-cols-[320px_1fr_420px] w-full flex-1 gap-3 p-3 overflow-hidden">
-        <section>
+        <section className="overflow-hidden">
           <LeftPane />
         </section>
         <section className="overflow-hidden">

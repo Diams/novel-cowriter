@@ -29,7 +29,7 @@ export default function CanonContainer({
           set_selected_canon(canons[index].id);
         }
       }}
-      className="w-full space-y-2"
+      className="w-full h-full space-y-2 overflow-auto"
     >
       {canons.map((canon) => (
         <SelectableCard key={canon.id} className="w-full">
