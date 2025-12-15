@@ -8,6 +8,7 @@ import {
   GetCanonById,
   UpdateCanon,
 } from "@/utils/data_accessor/canon_data_accessor";
+import { useCanonRefreshStore } from "@/utils/stores/canon_refresh_store";
 import { useCurrentTabStore } from "@/utils/stores/current_tab_store";
 import { useSelectedCanonStore } from "@/utils/stores/selected_canon_store";
 
@@ -17,6 +18,9 @@ export default function CenterPane() {
     (state) => state.selected_settings
   );
   const selected_story = useSelectedCanonStore((state) => state.selected_story);
+  const trigger_refresh = useCanonRefreshStore(
+    (state) => state.trigger_refresh
+  );
   const [selected_canon_title, set_selected_canon_title] = useState<string>("");
   const [selected_canon_content, set_selected_canon_content] =
     useState<string>("");
@@ -65,6 +69,7 @@ export default function CenterPane() {
                   content: selected_canon_content,
                 }
               );
+              trigger_refresh();
             }}
           />
           <Button

@@ -13,6 +13,7 @@ import {
 } from "@/utils/data_accessor/canon_data_accessor";
 import { CanonData } from "@/utils/data_type";
 import { useAIReferencesStore } from "@/utils/stores/ai_referrences_store";
+import { useCanonRefreshStore } from "@/utils/stores/canon_refresh_store";
 import { useCurrentTabStore } from "@/utils/stores/current_tab_store";
 import { useSelectedCanonStore } from "@/utils/stores/selected_canon_store";
 import CanonContainer from "./left_pane/canon_container";
@@ -33,6 +34,9 @@ export default function LeftPane() {
       description: "確定稿（新規）",
     },
   };
+  const refresh_trigger = useCanonRefreshStore(
+    (state) => state.refresh_trigger
+  );
   const current_tab_value = useCurrentTabStore((state) => state.current_tab);
   const set_current_tab_value = useCurrentTabStore(
     (state) => state.set_current_tab
@@ -78,6 +82,13 @@ export default function LeftPane() {
     );
     set_selected_story(canons_story.length > 0 ? canons_story[0].id : "");
   }, []);
+  useEffect(() => {
+    const { canons_settings, canons_story } = handle_update_canons();
+    set_selected_settings(
+      canons_settings.length > 0 ? canons_settings[0].id : ""
+    );
+    set_selected_story(canons_story.length > 0 ? canons_story[0].id : "");
+  }, [refresh_trigger]);
   return (
     <Pane className="flex flex-col h-full bg-linear-to-b from-[rgba(16,24,40,0.72)] to-[rgba(16,24,40,0.5)] shadow-black/35 overflow-hidden">
       <Pane.Title className="bg-[rgba(15,23,42,0.55)]">
