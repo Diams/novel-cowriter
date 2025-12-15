@@ -79,11 +79,11 @@ export default function LeftPane() {
     set_selected_story(canons_story.length > 0 ? canons_story[0].id : "");
   }, []);
   return (
-    <Pane className="h-full bg-linear-to-b from-[rgba(16,24,40,0.72)] to-[rgba(16,24,40,0.5)] shadow-black/35 overflow-hidden">
+    <Pane className="flex flex-col h-full bg-linear-to-b from-[rgba(16,24,40,0.72)] to-[rgba(16,24,40,0.5)] shadow-black/35 overflow-hidden">
       <Pane.Title className="bg-[rgba(15,23,42,0.55)]">
         <h2 className="text-sm font-extrabold">設定集／本編</h2>
       </Pane.Title>
-      <Pane.Content className="text-sm overflow-y-auto">
+      <Pane.Content className="flex-1 min-h-0 text-sm overflow-hidden">
         <Tab
           default_value={default_tab_value}
           onValueChange={(value) => {
@@ -91,6 +91,7 @@ export default function LeftPane() {
               set_current_tab_value(value);
             }
           }}
+          className="h-full flex flex-col overflow-hidden"
         >
           <Tab.List className="font-bold">
             <Tab.Trigger value="settings">設定</Tab.Trigger>
@@ -154,7 +155,7 @@ export default function LeftPane() {
               </div>
             </div>
           </Tab.CommonContent>
-          <Tab.Content value="settings">
+          <Tab.Content value="settings" className="flex-1 overflow-hidden">
             <CanonContainer
               canons={canons_settings}
               selected_canon={selected_settings}
@@ -183,7 +184,7 @@ export default function LeftPane() {
               }}
             />
           </Tab.Content>
-          <Tab.Content value="story">
+          <Tab.Content value="story" className="flex-1 overflow-hidden">
             <CanonContainer
               canons={canons_story}
               selected_canon={selected_story}

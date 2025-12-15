@@ -4,16 +4,18 @@ export default function Tab({
   children,
   default_value,
   onValueChange,
+  className,
 }: {
   children?: React.ReactNode;
   default_value?: string;
   onValueChange?: (value: string) => void;
+  className?: string;
 }) {
   return (
     <Tabs.Root
       defaultValue={default_value}
       onValueChange={onValueChange}
-      className="space-y-2.5"
+      className={`space-y-2.5 ${className ?? ""}`}
     >
       {children}
     </Tabs.Root>
@@ -62,11 +64,17 @@ function CommonContent({
 function Content({
   children,
   value,
+  className,
 }: {
   children?: React.ReactNode;
   value: string;
+  className?: string;
 }) {
-  return <Tabs.Content value={value}>{children}</Tabs.Content>;
+  return (
+    <Tabs.Content value={value} className={className}>
+      {children}
+    </Tabs.Content>
+  );
 }
 
 Tab.List = List;
