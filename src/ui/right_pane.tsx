@@ -8,6 +8,7 @@ import Badge from "@/components/displays/badge";
 import { GetCanonById } from "@/utils/data_accessor/canon_data_accessor";
 import { CanonData, ChatMessageData } from "@/utils/data_type";
 import { useAIReferencesStore } from "@/utils/stores/ai_referrences_store";
+import { useCanonRefreshStore } from "@/utils/stores/canon_refresh_store";
 
 export default function RightPane() {
   const ai_referenced_settings = useAIReferencesStore(
@@ -15,6 +16,9 @@ export default function RightPane() {
   );
   const ai_referenced_story = useAIReferencesStore(
     (state) => state.ai_referenced_story
+  );
+  const refresh_trigger = useCanonRefreshStore(
+    (state) => state.refresh_trigger
   );
   const [ai_referenceds, set_ai_referenceds] = useState<CanonData[]>([]);
   const default_chat_messages: ChatMessageData[] = [
@@ -86,7 +90,7 @@ Output:
       .map((k) => GetCanonById(k))
       .filter((canon): canon is CanonData => canon != null);
     set_ai_referenceds(new_ai_referenced);
-  }, [ai_referenced_settings, ai_referenced_story]);
+  }, [ai_referenced_settings, ai_referenced_story, refresh_trigger]);
   return (
     <Pane className="flex flex-col h-full bg-linear-to-b from-[rgba(16,24,40,0.72)] to-[rgba(16,24,40,0.5)] shadow-black/35 overflow-hidden">
       <Pane.Title className="bg-[rgba(15,23,42,0.55)]">
@@ -139,6 +143,21 @@ Output:
               role: "user",
               content: trimed_chat_input,
             };
+            // 参照中のCanonを取得
+            const referenced_chat_message: ChatMessageData[] =
+              ai_referenceds.map((canon) => {
+                const chat_message_canon: string = `
+[REFERENCE: ${canon.type === "settings" ? "SETTINGS" : "STORY"}]
+
+Item: ${canon.title}
+Revision: v${canon.version}
+
+<BEGIN CANON ${canon.type === "settings" ? "SETTINGS" : "STORY"}>
+${canon.content}
+<END CANON ${canon.type === "settings" ? "SETTINGS" : "STORY"}>
+`.trim();
+                return { role: "user", content: chat_message_canon };
+              });
             set_chat_messages((prev) => [...prev, new_user_message]);
             set_chat_input("");
 
@@ -155,7 +174,11 @@ Output:
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
-                  messages: [...chat_messages, new_user_message],
+                  messages: [
+                    ...chat_messages,
+                    new_user_message,
+                    ...referenced_chat_message,
+                  ],
                 }),
               });
 
