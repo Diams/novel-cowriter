@@ -42,7 +42,11 @@ function Content({
 }
 
 function Label({ children }: { children?: React.ReactNode }) {
-  return <RadixDropdownMenu.Label>{children}</RadixDropdownMenu.Label>;
+  return (
+    <RadixDropdownMenu.Label className="font-semibold">
+      {children}
+    </RadixDropdownMenu.Label>
+  );
 }
 
 function Item({ children }: { children?: React.ReactNode }) {
