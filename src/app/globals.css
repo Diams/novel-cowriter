@@ -5,6 +5,7 @@
   --border: rgba(255, 255, 255, 0.1);
   --muted: rgba(255, 255, 255, 0.65);
   --text: rgba(255, 255, 255, 0.92);
+  --primary: #0f172a;
   --accent: #7c3aed;
   --good: #22c55e;
   --danger: #ef4444;
@@ -21,6 +22,7 @@
   --color-background: var(--background);
   --color-foreground: var(--text);
   --color-muted: var(--muted);
+  --color-primary: var(--primary);
   --color-accent: var(--accent);
   --color-good: var(--good);
   --color-danger: var(--danger);
