@@ -29,7 +29,11 @@ function Label({ children }: { children?: React.ReactNode }) {
 }
 
 function Item({ children }: { children?: React.ReactNode }) {
-  return <RadixDropdownMenu.Item>{children}</RadixDropdownMenu.Item>;
+  return (
+    <RadixDropdownMenu.Item className="hover:bg-accent/15 rounded-md px-2 py-1 cursor-pointer">
+      {children}
+    </RadixDropdownMenu.Item>
+  );
 }
 
 function Separator() {
