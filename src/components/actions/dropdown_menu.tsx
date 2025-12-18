@@ -23,10 +23,21 @@ function Content({
   children?: React.ReactNode;
   disabled_portal?: boolean;
 }) {
-  return (
+  const dropdown_menu_content = (
     <RadixDropdownMenu.Content className="bg-primary text-sm border rounded-radius2 px-4 py-2">
       {children}
     </RadixDropdownMenu.Content>
+  );
+  return (
+    <>
+      {disabled_portal ? (
+        <>{dropdown_menu_content}</>
+      ) : (
+        <RadixDropdownMenu.Portal>
+          {dropdown_menu_content}
+        </RadixDropdownMenu.Portal>
+      )}
+    </>
   );
 }
 
