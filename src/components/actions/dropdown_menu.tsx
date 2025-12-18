@@ -26,5 +26,12 @@ function Content({ children }: { children?: React.ReactNode }) {
   return <RadixDropdownMenu.Content>{children}</RadixDropdownMenu.Content>;
 }
 
+function Label() {
+  return (
+    <RadixDropdownMenu.Label>DropdownMenu Content</RadixDropdownMenu.Label>
+  );
+}
+
 DropdownMenu.Trigger = Trigger;
 DropdownMenu.Content = Content;
+DropdownMenu.Label = Label;
