@@ -1,9 +1,14 @@
+"use client";
+
 import {
   IconBaselineDensityMedium,
   IconFileExport,
   IconFileImport,
 } from "@tabler/icons-react";
 import DropdownMenu from "@/components/actions/dropdown_menu";
+import { ProjectData } from "@/utils/data_type";
+import { GetAllCanons } from "@/utils/data_accessor/canon_data_accessor";
+import { GetAllChatMessages } from "@/utils/data_accessor/chat_message_data_accessor";
 
 export default function ProjectMenu() {
   return (
@@ -16,7 +21,27 @@ export default function ProjectMenu() {
       </DropdownMenu.Trigger>
       <div className="mr-2">
         <DropdownMenu.Content>
-          <DropdownMenu.Item>
+          <DropdownMenu.Item
+            onSelect={() => {
+              const project_data: ProjectData = {
+                structure_version: 1,
+                canons: GetAllCanons(),
+                chat_history: GetAllChatMessages(),
+              };
+              const data_str =
+                "data:text/json;charset=utf-8," +
+                encodeURIComponent(JSON.stringify(project_data, null, 2));
+              const download_anchor_node = document.createElement("a");
+              download_anchor_node.setAttribute("href", data_str);
+              download_anchor_node.setAttribute(
+                "download",
+                `project_data_${new Date().toISOString()}.json`
+              );
+              document.body.appendChild(download_anchor_node);
+              download_anchor_node.click();
+              download_anchor_node.remove();
+            }}
+          >
             <div className="flex gap-1 items-center">
               <IconFileExport size={16} />
               <div>エクスポート</div>
