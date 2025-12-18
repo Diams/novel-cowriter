@@ -59,7 +59,7 @@ function Item({
   return (
     <RadixDropdownMenu.Item
       onSelect={onSelect}
-      className="hover:bg-accent/15 rounded-md px-2 py-1 cursor-pointer"
+      className="hover:bg-accent/15 rounded-md outline-0 px-2 py-1 cursor-pointer"
     >
       {children}
     </RadixDropdownMenu.Item>
