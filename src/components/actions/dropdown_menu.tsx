@@ -22,4 +22,9 @@ function Trigger() {
   return <RadixDropdownMenu.Trigger>Menu</RadixDropdownMenu.Trigger>;
 }
 
+function Content({ children }: { children?: React.ReactNode }) {
+  return <RadixDropdownMenu.Content>{children}</RadixDropdownMenu.Content>;
+}
+
 DropdownMenu.Trigger = Trigger;
+DropdownMenu.Content = Content;
