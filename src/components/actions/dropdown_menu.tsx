@@ -8,8 +8,8 @@ export default function DropdownMenu({
   return <RadixDropdownMenu.Root>{children}</RadixDropdownMenu.Root>;
 }
 
-function Trigger() {
-  return <RadixDropdownMenu.Trigger>Menu</RadixDropdownMenu.Trigger>;
+function Trigger({ children }: { children?: React.ReactNode }) {
+  return <RadixDropdownMenu.Trigger>{children}</RadixDropdownMenu.Trigger>;
 }
 
 function Content({ children }: { children?: React.ReactNode }) {
