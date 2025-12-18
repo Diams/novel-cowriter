@@ -36,7 +36,12 @@ function Item() {
   return <RadixDropdownMenu.Item>Item</RadixDropdownMenu.Item>;
 }
 
+function Separator() {
+  return <RadixDropdownMenu.Separator />;
+}
+
 DropdownMenu.Trigger = Trigger;
 DropdownMenu.Content = Content;
 DropdownMenu.Label = Label;
 DropdownMenu.Item = Item;
+DropdownMenu.Separator = Separator;
