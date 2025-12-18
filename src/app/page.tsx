@@ -2,12 +2,13 @@ import Image from "next/image";
 import CenterPane from "@/ui/center_pane";
 import LeftPane from "@/ui/left_pane";
 import RightPane from "@/ui/right_pane";
+import DropdownMenu from "@/components/actions/dropdown_menu";
 
 export default function Home() {
   return (
     <div className="flex flex-col w-full h-full">
-      <header className="w-full bg-linear-to-b from-[rgba(16,24,40,0.88)] to-[rgba(16,24,40,0.55)] backdrop-blur-[10px] border-b py-2.5 px-3.5">
-        <div className="flex items-center gap-2.5">
+      <header className="flex w-full bg-linear-to-b from-[rgba(16,24,40,0.88)] to-[rgba(16,24,40,0.55)] backdrop-blur-[10px] border-b py-2.5 px-3.5">
+        <div className="flex flex-1 items-center gap-2.5">
           <Image
             src="/favicon.ico"
             alt="Novel Co-Writer"
@@ -16,6 +17,15 @@ export default function Home() {
           />
           <h1>Novel Co-Writer</h1>
         </div>
+        <DropdownMenu>
+          <DropdownMenu.Trigger>Menu</DropdownMenu.Trigger>
+          <DropdownMenu.Content>
+            <DropdownMenu.Label>DropdownMenu Content</DropdownMenu.Label>
+            <DropdownMenu.Item>Item 1</DropdownMenu.Item>
+            <DropdownMenu.Separator />
+            <DropdownMenu.Item>Item 2</DropdownMenu.Item>
+          </DropdownMenu.Content>
+        </DropdownMenu>
       </header>
       <main className="grid grid-cols-[320px_1fr_420px] w-full flex-1 gap-3 p-3 overflow-hidden">
         <section className="overflow-hidden">
