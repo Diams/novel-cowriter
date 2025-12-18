@@ -16,7 +16,13 @@ function Trigger({ children }: { children?: React.ReactNode }) {
   );
 }
 
-function Content({ children }: { children?: React.ReactNode }) {
+function Content({
+  children,
+  disabled_portal = false,
+}: {
+  children?: React.ReactNode;
+  disabled_portal?: boolean;
+}) {
   return (
     <RadixDropdownMenu.Content className="bg-primary text-sm border rounded-radius2 px-4 py-2">
       {children}
