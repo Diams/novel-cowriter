@@ -6,6 +6,10 @@ import ChatMessageContainer from "@/components/containers/chat_message_container
 import Pane from "@/components/containers/pane";
 import Badge from "@/components/displays/badge";
 import { GetCanonById } from "@/utils/data_accessor/canon_data_accessor";
+import {
+  GetAllChatMessages,
+  SaveChatMessages,
+} from "@/utils/data_accessor/chat_message_data_accessor";
 import { CanonData, ChatMessageData } from "@/utils/data_type";
 import { useAIReferencesStore } from "@/utils/stores/ai_referrences_store";
 import { useCanonRefreshStore } from "@/utils/stores/canon_refresh_store";
@@ -56,10 +60,10 @@ Output:
 
   // 初回マウント時にlocalStorageから復元
   useEffect(() => {
-    const saved = localStorage.getItem("chat_messages");
+    const saved = GetAllChatMessages();
     if (saved) {
       try {
-        set_chat_messages(JSON.parse(saved));
+        set_chat_messages(saved);
       } catch (e) {
         console.error("Failed to parse saved chat messages:", e);
       }
@@ -70,7 +74,7 @@ Output:
   // chat_messagesが更新されたらlocalStorageに保存（初回ロード後のみ）
   useEffect(() => {
     if (is_loaded) {
-      localStorage.setItem("chat_messages", JSON.stringify(chat_messages));
+      SaveChatMessages(chat_messages);
     }
   }, [chat_messages, is_loaded]);
 
