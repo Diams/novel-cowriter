@@ -17,3 +17,9 @@ export default function DropdownMenu() {
     </RadixDropdownMenu.Root>
   );
 }
+
+function Trigger() {
+  return <RadixDropdownMenu.Trigger>Menu</RadixDropdownMenu.Trigger>;
+}
+
+DropdownMenu.Trigger = Trigger;
