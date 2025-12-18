@@ -33,9 +33,14 @@ export default function ProjectMenu() {
                 encodeURIComponent(JSON.stringify(project_data, null, 2));
               const download_anchor_node = document.createElement("a");
               download_anchor_node.setAttribute("href", data_str);
+              const jst_date = new Date(
+                new Date().getTime() + 9 * 60 * 60 * 1000
+              );
               download_anchor_node.setAttribute(
                 "download",
-                `project_data_${new Date().toISOString()}.json`
+                `project_data_${jst_date
+                  .toISOString()
+                  .replace(/[:.]/g, "")}.json`
               );
               document.body.appendChild(download_anchor_node);
               download_anchor_node.click();
