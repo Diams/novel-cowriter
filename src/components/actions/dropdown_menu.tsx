@@ -16,10 +16,8 @@ function Content({ children }: { children?: React.ReactNode }) {
   return <RadixDropdownMenu.Content>{children}</RadixDropdownMenu.Content>;
 }
 
-function Label() {
-  return (
-    <RadixDropdownMenu.Label>DropdownMenu Content</RadixDropdownMenu.Label>
-  );
+function Label({ children }: { children?: React.ReactNode }) {
+  return <RadixDropdownMenu.Label>{children}</RadixDropdownMenu.Label>;
 }
 
 function Item() {
