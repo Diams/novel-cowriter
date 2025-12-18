@@ -49,9 +49,18 @@ function Label({ children }: { children?: React.ReactNode }) {
   );
 }
 
-function Item({ children }: { children?: React.ReactNode }) {
+function Item({
+  children,
+  onSelect,
+}: {
+  children?: React.ReactNode;
+  onSelect?: (e: Event) => void;
+}) {
   return (
-    <RadixDropdownMenu.Item className="hover:bg-accent/15 rounded-md px-2 py-1 cursor-pointer">
+    <RadixDropdownMenu.Item
+      onSelect={onSelect}
+      className="hover:bg-accent/15 rounded-md px-2 py-1 cursor-pointer"
+    >
       {children}
     </RadixDropdownMenu.Item>
   );
