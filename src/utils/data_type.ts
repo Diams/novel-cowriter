@@ -11,3 +11,9 @@ export interface ChatMessageData {
   role: "user" | "assistant" | "system";
   content: string;
 }
+
+export interface ProjectData {
+  structure_version: number;
+  canons: CanonData[];
+  chat_history: ChatMessageData[];
+}
