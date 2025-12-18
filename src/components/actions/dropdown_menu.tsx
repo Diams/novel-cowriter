@@ -54,7 +54,7 @@ function Item({ children }: { children?: React.ReactNode }) {
 }
 
 function Separator() {
-  return <RadixDropdownMenu.Separator className="border-b" />;
+  return <RadixDropdownMenu.Separator className="border-b my-1" />;
 }
 
 DropdownMenu.Trigger = Trigger;
