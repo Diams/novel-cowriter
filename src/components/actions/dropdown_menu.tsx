@@ -18,7 +18,7 @@ function Trigger({ children }: { children?: React.ReactNode }) {
 
 function Content({ children }: { children?: React.ReactNode }) {
   return (
-    <RadixDropdownMenu.Content className="bg-primary border border-border rounded-radius2 px-4 py-2">
+    <RadixDropdownMenu.Content className="bg-primary text-sm border border-border rounded-radius2 px-4 py-2">
       {children}
     </RadixDropdownMenu.Content>
   );
