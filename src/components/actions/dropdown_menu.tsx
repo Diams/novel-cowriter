@@ -32,6 +32,11 @@ function Label() {
   );
 }
 
+function Item() {
+  return <RadixDropdownMenu.Item>Item</RadixDropdownMenu.Item>;
+}
+
 DropdownMenu.Trigger = Trigger;
 DropdownMenu.Content = Content;
 DropdownMenu.Label = Label;
+DropdownMenu.Item = Item;
