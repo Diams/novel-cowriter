@@ -10,7 +10,7 @@ export default function DropdownMenu({
 
 function Trigger({ children }: { children?: React.ReactNode }) {
   return (
-    <RadixDropdownMenu.Trigger className="outline-0 cursor-pointer">
+    <RadixDropdownMenu.Trigger className="hover:bg-accent/15 rounded-md outline-0 px-2 cursor-pointer">
       {children}
     </RadixDropdownMenu.Trigger>
   );
