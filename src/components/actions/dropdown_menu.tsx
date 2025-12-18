@@ -20,8 +20,8 @@ function Label({ children }: { children?: React.ReactNode }) {
   return <RadixDropdownMenu.Label>{children}</RadixDropdownMenu.Label>;
 }
 
-function Item() {
-  return <RadixDropdownMenu.Item>Item</RadixDropdownMenu.Item>;
+function Item({ children }: { children?: React.ReactNode }) {
+  return <RadixDropdownMenu.Item>{children}</RadixDropdownMenu.Item>;
 }
 
 function Separator() {
