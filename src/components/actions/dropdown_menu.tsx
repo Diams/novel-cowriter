@@ -9,7 +9,11 @@ export default function DropdownMenu({
 }
 
 function Trigger({ children }: { children?: React.ReactNode }) {
-  return <RadixDropdownMenu.Trigger>{children}</RadixDropdownMenu.Trigger>;
+  return (
+    <RadixDropdownMenu.Trigger className="outline-0 cursor-pointer">
+      {children}
+    </RadixDropdownMenu.Trigger>
+  );
 }
 
 function Content({ children }: { children?: React.ReactNode }) {
