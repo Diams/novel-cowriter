@@ -62,6 +62,7 @@ export default function ProjectMenu() {
           </DropdownMenu.Content>
         </div>
       </DropdownMenu>
+      <input type="file" className="hidden" />
     </>
   );
 }
