@@ -55,7 +55,11 @@ export default function ProjectMenu() {
                 <div>エクスポート</div>
               </div>
             </DropdownMenu.Item>
-            <DropdownMenu.Item>
+            <DropdownMenu.Item
+              onSelect={() => {
+                file_input_ref.current?.click();
+              }}
+            >
               <div className="flex gap-1 items-center">
                 <IconFileImport size={16} />
                 <div>インポート</div>
