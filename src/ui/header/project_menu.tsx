@@ -8,8 +8,14 @@ import {
 import { useRef } from "react";
 import DropdownMenu from "@/components/actions/dropdown_menu";
 import { ProjectData } from "@/utils/data_type";
-import { GetAllCanons } from "@/utils/data_accessor/canon_data_accessor";
-import { GetAllChatMessages } from "@/utils/data_accessor/chat_message_data_accessor";
+import {
+  GetAllCanons,
+  SaveCanons,
+} from "@/utils/data_accessor/canon_data_accessor";
+import {
+  GetAllChatMessages,
+  SaveChatMessages,
+} from "@/utils/data_accessor/chat_message_data_accessor";
 
 export default function ProjectMenu() {
   const file_input_ref = useRef<HTMLInputElement>(null);
@@ -68,7 +74,39 @@ export default function ProjectMenu() {
           </DropdownMenu.Content>
         </div>
       </DropdownMenu>
-      <input type="file" className="hidden" ref={file_input_ref} />
+      <input
+        type="file"
+        className="hidden"
+        ref={file_input_ref}
+        onChange={async (e) => {
+          const file = e.target.files?.[0];
+          if (!file) return;
+          try {
+            const json: ProjectData = JSON.parse(await file.text());
+            if (
+              typeof json !== "object" ||
+              json === null ||
+              json.structure_version !== 1
+            ) {
+              alert("無効なプロジェクトデータです。");
+              return;
+            }
+            if (
+              !confirm(
+                "プロジェクトデータをインポートしますか？\n現在のデータは上書きされます。"
+              )
+            ) {
+              return;
+            }
+            SaveCanons(json.canons);
+            SaveChatMessages(json.chat_history);
+          } catch (error) {
+            console.error(error);
+          } finally {
+            e.target.value = "";
+          }
+        }}
+      />
     </>
   );
 }
