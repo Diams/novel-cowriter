@@ -17,12 +17,14 @@ import {
   SaveChatMessages,
 } from "@/utils/data_accessor/chat_message_data_accessor";
 import { useCanonRefreshStore } from "@/utils/stores/canon_refresh_store";
+import { useChatLoadStore } from "@/utils/stores/chat_load_store";
 
 export default function ProjectMenu() {
   const file_input_ref = useRef<HTMLInputElement>(null);
   const trigger_refresh = useCanonRefreshStore(
     (state) => state.trigger_refresh
   );
+  const trigger_load = useChatLoadStore((state) => state.trigger_load);
   return (
     <>
       <DropdownMenu>
@@ -105,6 +107,7 @@ export default function ProjectMenu() {
             SaveCanons(json.canons);
             SaveChatMessages(json.chat_history);
             trigger_refresh();
+            trigger_load();
           } catch (error) {
             console.error(error);
           } finally {
