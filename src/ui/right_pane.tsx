@@ -6,9 +6,14 @@ import ChatMessageContainer from "@/components/containers/chat_message_container
 import Pane from "@/components/containers/pane";
 import Badge from "@/components/displays/badge";
 import { GetCanonById } from "@/utils/data_accessor/canon_data_accessor";
+import {
+  GetAllChatMessages,
+  SaveChatMessages,
+} from "@/utils/data_accessor/chat_message_data_accessor";
 import { CanonData, ChatMessageData } from "@/utils/data_type";
 import { useAIReferencesStore } from "@/utils/stores/ai_referrences_store";
 import { useCanonRefreshStore } from "@/utils/stores/canon_refresh_store";
+import { useChatLoadStore } from "@/utils/stores/chat_load_store";
 
 export default function RightPane() {
   const ai_referenced_settings = useAIReferencesStore(
@@ -20,6 +25,7 @@ export default function RightPane() {
   const refresh_trigger = useCanonRefreshStore(
     (state) => state.refresh_trigger
   );
+  const load_trigger = useChatLoadStore((state) => state.load_trigger);
   const [ai_referenceds, set_ai_referenceds] = useState<CanonData[]>([]);
   const default_chat_messages: ChatMessageData[] = [
     {
@@ -56,21 +62,21 @@ Output:
 
   // 初回マウント時にlocalStorageから復元
   useEffect(() => {
-    const saved = localStorage.getItem("chat_messages");
+    const saved = GetAllChatMessages();
     if (saved) {
       try {
-        set_chat_messages(JSON.parse(saved));
+        set_chat_messages(saved);
       } catch (e) {
         console.error("Failed to parse saved chat messages:", e);
       }
     }
     set_is_loaded(true);
-  }, []);
+  }, [load_trigger]);
 
   // chat_messagesが更新されたらlocalStorageに保存（初回ロード後のみ）
   useEffect(() => {
     if (is_loaded) {
-      localStorage.setItem("chat_messages", JSON.stringify(chat_messages));
+      SaveChatMessages(chat_messages);
     }
   }, [chat_messages, is_loaded]);
 
