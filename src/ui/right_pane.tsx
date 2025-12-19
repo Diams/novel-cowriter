@@ -13,6 +13,7 @@ import {
 import { CanonData, ChatMessageData } from "@/utils/data_type";
 import { useAIReferencesStore } from "@/utils/stores/ai_referrences_store";
 import { useCanonRefreshStore } from "@/utils/stores/canon_refresh_store";
+import { useChatLoadStore } from "@/utils/stores/chat_load_store";
 
 export default function RightPane() {
   const ai_referenced_settings = useAIReferencesStore(
@@ -24,6 +25,7 @@ export default function RightPane() {
   const refresh_trigger = useCanonRefreshStore(
     (state) => state.refresh_trigger
   );
+  const load_trigger = useChatLoadStore((state) => state.load_trigger);
   const [ai_referenceds, set_ai_referenceds] = useState<CanonData[]>([]);
   const default_chat_messages: ChatMessageData[] = [
     {
@@ -69,7 +71,7 @@ Output:
       }
     }
     set_is_loaded(true);
-  }, []);
+  }, [load_trigger]);
 
   // chat_messagesが更新されたらlocalStorageに保存（初回ロード後のみ）
   useEffect(() => {
