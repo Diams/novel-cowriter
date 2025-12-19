@@ -109,9 +109,9 @@ export function DeleteAllCanons(): void {
 }
 
 /**
- * LocalStorageにCanonDataを保存（内部用）
+ * LocalStorageにCanonDataを保存
  */
-function SaveCanons(canons: CanonData[]): void {
+export function SaveCanons(canons: CanonData[]): void {
   if (typeof window === "undefined") return;
 
   try {
