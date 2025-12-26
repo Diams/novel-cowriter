@@ -58,7 +58,11 @@ export default function Button({
     >
       {Icon && <Icon size={icon_size} />}
       {text}
-      {EndIndicatorIcon && <EndIndicatorIcon size={end_indicator_icon_size} color={end_indicator_icon_color} />}
+      {EndIndicatorIcon && (
+        <span style={{ marginLeft: '4px' }}>
+          <EndIndicatorIcon size={end_indicator_icon_size} color={end_indicator_icon_color} />
+        </span>
+      )}
     </button>
   );
 }

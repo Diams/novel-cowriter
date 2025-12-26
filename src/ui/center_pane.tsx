@@ -85,7 +85,10 @@ export default function CenterPane() {
           />
           <Button
             text="クリア"
-            onClick={() => set_selected_canon_content("")}
+            onClick={() => {
+              set_selected_canon_content("");
+              set_saved_canon_content("");
+            }}
           />
         </div>
       </Pane.Title>
