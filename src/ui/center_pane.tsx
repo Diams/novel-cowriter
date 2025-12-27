@@ -24,24 +24,31 @@ export default function CenterPane() {
   const [selected_canon_title, set_selected_canon_title] = useState<string>("");
   const [selected_canon_content, set_selected_canon_content] =
     useState<string>("");
+  const [saved_canon_content, set_saved_canon_content] = useState<string>("");
+  const is_unsaved = selected_canon_content !== saved_canon_content;
+  
   useEffect(() => {
     if (current_tab_value === "settings") {
       const selected_canon = GetCanonById(selected_settings);
       if (selected_canon) {
         set_selected_canon_title(selected_canon.title);
         set_selected_canon_content(selected_canon.content);
+        set_saved_canon_content(selected_canon.content);
       } else {
         set_selected_canon_title("");
         set_selected_canon_content("");
+        set_saved_canon_content("");
       }
     } else {
       const selected_canon = GetCanonById(selected_story);
       if (selected_canon) {
         set_selected_canon_title(selected_canon.title);
         set_selected_canon_content(selected_canon.content);
+        set_saved_canon_content(selected_canon.content);
       } else {
         set_selected_canon_title("");
         set_selected_canon_content("");
+        set_saved_canon_content("");
       }
     }
   }, [current_tab_value, selected_settings, selected_story]);
@@ -60,6 +67,9 @@ export default function CenterPane() {
           />
           <Button
             text="保存"
+            end_indicator_icon_name={is_unsaved ? "IconCircleFilled" : undefined}
+            end_indicator_icon_size={12}
+            end_indicator_icon_color="white"
             onClick={() => {
               UpdateCanon(
                 current_tab_value === "settings"
@@ -69,6 +79,7 @@ export default function CenterPane() {
                   content: selected_canon_content,
                 }
               );
+              set_saved_canon_content(selected_canon_content);
               trigger_refresh();
             }}
           />
