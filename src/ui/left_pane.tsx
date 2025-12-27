@@ -5,6 +5,7 @@ import Button from "@/components/actions/button";
 import Pane from "@/components/containers/pane";
 import Tab from "@/components/containers/tab";
 import Badge from "@/components/displays/badge";
+import UnsavedContentDialog from "@/components/containers/unsaved_content_dialog";
 import {
   CreateCanon,
   DeleteCanon,
@@ -16,6 +17,7 @@ import { useAIReferencesStore } from "@/utils/stores/ai_referrences_store";
 import { useCanonRefreshStore } from "@/utils/stores/canon_refresh_store";
 import { useCurrentTabStore } from "@/utils/stores/current_tab_store";
 import { useSelectedCanonStore } from "@/utils/stores/selected_canon_store";
+import { useWorkspaceStore } from "@/utils/stores/workspace_store";
 import CanonContainer from "./left_pane/canon_container";
 
 export default function LeftPane() {
@@ -65,6 +67,15 @@ export default function LeftPane() {
   const set_is_ai_referenceds_story = useAIReferencesStore(
     (state) => state.set_ai_referenced_story
   );
+  const is_unsaved = useWorkspaceStore((state) => state.is_unsaved);
+  const save_workspace = useWorkspaceStore((state) => state.save_workspace);
+  const [show_unsaved_dialog, set_show_unsaved_dialog] = useState(false);
+  const [pending_canon_id, set_pending_canon_id] = useState<string | null>(
+    null
+  );
+  const [pending_canon_type, set_pending_canon_type] = useState<
+    "settings" | "story" | null
+  >(null);
   const handle_update_canons = (): {
     canons_settings: CanonData[];
     canons_story: CanonData[];
@@ -74,6 +85,64 @@ export default function LeftPane() {
     set_canons_settings(canons_settings);
     set_canons_story(canons_story);
     return { canons_settings, canons_story };
+  };
+
+  const handle_canon_switch = (
+    new_canon_id: string,
+    type: "settings" | "story"
+  ) => {
+    const current_canon_id =
+      type === "settings" ? selected_settings : selected_story;
+
+    // If switching to the same canon, do nothing
+    if (new_canon_id === current_canon_id) {
+      return;
+    }
+
+    // If there are unsaved changes, show dialog
+    if (is_unsaved) {
+      set_pending_canon_id(new_canon_id);
+      set_pending_canon_type(type);
+      set_show_unsaved_dialog(true);
+    } else {
+      // No unsaved changes, switch immediately
+      if (type === "settings") {
+        set_selected_settings(new_canon_id);
+      } else {
+        set_selected_story(new_canon_id);
+      }
+    }
+  };
+
+  const handle_save_and_switch = () => {
+    if (save_workspace) {
+      save_workspace();
+    }
+    if (pending_canon_type === "settings" && pending_canon_id) {
+      set_selected_settings(pending_canon_id);
+    } else if (pending_canon_type === "story" && pending_canon_id) {
+      set_selected_story(pending_canon_id);
+    }
+    set_show_unsaved_dialog(false);
+    set_pending_canon_id(null);
+    set_pending_canon_type(null);
+  };
+
+  const handle_discard_and_switch = () => {
+    if (pending_canon_type === "settings" && pending_canon_id) {
+      set_selected_settings(pending_canon_id);
+    } else if (pending_canon_type === "story" && pending_canon_id) {
+      set_selected_story(pending_canon_id);
+    }
+    set_show_unsaved_dialog(false);
+    set_pending_canon_id(null);
+    set_pending_canon_type(null);
+  };
+
+  const handle_cancel_switch = () => {
+    set_show_unsaved_dialog(false);
+    set_pending_canon_id(null);
+    set_pending_canon_type(null);
   };
   useEffect(() => {
     const { canons_settings, canons_story } = handle_update_canons();
@@ -96,7 +165,14 @@ export default function LeftPane() {
     }
   }, [refresh_trigger]);
   return (
-    <Pane className="flex flex-col h-full bg-linear-to-b from-[rgba(16,24,40,0.72)] to-[rgba(16,24,40,0.5)] shadow-black/35 overflow-hidden">
+    <>
+      <UnsavedContentDialog
+        open={show_unsaved_dialog}
+        onSave={handle_save_and_switch}
+        onDiscard={handle_discard_and_switch}
+        onCancel={handle_cancel_switch}
+      />
+      <Pane className="flex flex-col h-full bg-linear-to-b from-[rgba(16,24,40,0.72)] to-[rgba(16,24,40,0.5)] shadow-black/35 overflow-hidden">
       <Pane.Title className="bg-[rgba(15,23,42,0.55)]">
         <h2 className="text-sm font-extrabold">設定集／本編</h2>
       </Pane.Title>
@@ -176,7 +252,7 @@ export default function LeftPane() {
             <CanonContainer
               canons={canons_settings}
               selected_canon={selected_settings}
-              set_selected_canon={set_selected_settings}
+              set_selected_canon={(id) => handle_canon_switch(id, "settings")}
               is_ai_referenceds={is_ai_referenceds_settings}
               set_is_ai_referenceds={set_is_ai_referenceds_settings}
               onEdited={(id: string, new_title: string, new_description) => {
@@ -205,7 +281,7 @@ export default function LeftPane() {
             <CanonContainer
               canons={canons_story}
               selected_canon={selected_story}
-              set_selected_canon={set_selected_story}
+              set_selected_canon={(id) => handle_canon_switch(id, "story")}
               is_ai_referenceds={is_ai_referenceds_story}
               set_is_ai_referenceds={set_is_ai_referenceds_story}
               onEdited={(id: string, new_title: string, new_description) => {
@@ -231,5 +307,6 @@ export default function LeftPane() {
         </Tab>
       </Pane.Content>
     </Pane>
+    </>
   );
 }
