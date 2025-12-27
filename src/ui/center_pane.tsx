@@ -47,6 +47,7 @@ export default function CenterPane() {
     selected_settings,
     selected_story,
     selected_canon_content,
+    set_saved_canon_content,
     trigger_refresh,
   ]);
 
