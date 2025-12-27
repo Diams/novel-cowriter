@@ -76,9 +76,9 @@ export default function LeftPane() {
   const [pending_canon_type, set_pending_canon_type] = useState<
     "settings" | "story" | null
   >(null);
-  const [pending_tab_value, set_pending_tab_value] = useState<string | null>(
-    null
-  );
+  const [pending_tab_value, set_pending_tab_value] = useState<
+    "settings" | "story" | null
+  >(null);
   const handle_update_canons = (): {
     canons_settings: CanonData[];
     canons_story: CanonData[];
@@ -117,7 +117,7 @@ export default function LeftPane() {
     }
   };
 
-  const handle_tab_switch = (new_tab_value: string) => {
+  const handle_tab_switch = (new_tab_value: "settings" | "story") => {
     // If switching to the same tab, do nothing
     if (new_tab_value === current_tab_value) {
       return;
