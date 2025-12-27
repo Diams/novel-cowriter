@@ -39,8 +39,8 @@ export default function UnsavedContentDialog({
             <Button
               text="保存する"
               onClick={onSave}
-              bg_color="blue-600/60"
-              hover_bg_color="blue-600/80"
+              bg_color="good/60"
+              hover_bg_color="good/80"
             />
           </div>
         </Dialog.Content>

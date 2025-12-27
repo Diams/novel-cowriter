@@ -5,7 +5,7 @@ import Button from "@/components/actions/button";
 import Pane from "@/components/containers/pane";
 import Tab from "@/components/containers/tab";
 import Badge from "@/components/displays/badge";
-import UnsavedContentDialog from "@/components/containers/unsaved_content_dialog";
+import UnsavedContentDialog from "@/components/dialogs/unsaved_content_dialog";
 import {
   CreateCanon,
   DeleteCanon,
