@@ -76,6 +76,9 @@ export default function LeftPane() {
   const [pending_canon_type, set_pending_canon_type] = useState<
     "settings" | "story" | null
   >(null);
+  const [pending_tab_value, set_pending_tab_value] = useState<string | null>(
+    null
+  );
   const handle_update_canons = (): {
     canons_settings: CanonData[];
     canons_story: CanonData[];
@@ -114,10 +117,31 @@ export default function LeftPane() {
     }
   };
 
+  const handle_tab_switch = (new_tab_value: string) => {
+    // If switching to the same tab, do nothing
+    if (new_tab_value === current_tab_value) {
+      return;
+    }
+
+    // If there are unsaved changes, show dialog
+    if (is_unsaved) {
+      set_pending_tab_value(new_tab_value);
+      set_show_unsaved_dialog(true);
+    } else {
+      // No unsaved changes, switch immediately
+      set_current_tab_value(new_tab_value);
+    }
+  };
+
   const handle_save_and_switch = () => {
     if (save_workspace) {
       save_workspace();
     }
+    // Handle tab switching
+    if (pending_tab_value) {
+      set_current_tab_value(pending_tab_value);
+    }
+    // Handle canon switching
     if (pending_canon_type === "settings" && pending_canon_id) {
       set_selected_settings(pending_canon_id);
     } else if (pending_canon_type === "story" && pending_canon_id) {
@@ -126,9 +150,15 @@ export default function LeftPane() {
     set_show_unsaved_dialog(false);
     set_pending_canon_id(null);
     set_pending_canon_type(null);
+    set_pending_tab_value(null);
   };
 
   const handle_discard_and_switch = () => {
+    // Handle tab switching
+    if (pending_tab_value) {
+      set_current_tab_value(pending_tab_value);
+    }
+    // Handle canon switching
     if (pending_canon_type === "settings" && pending_canon_id) {
       set_selected_settings(pending_canon_id);
     } else if (pending_canon_type === "story" && pending_canon_id) {
@@ -137,12 +167,14 @@ export default function LeftPane() {
     set_show_unsaved_dialog(false);
     set_pending_canon_id(null);
     set_pending_canon_type(null);
+    set_pending_tab_value(null);
   };
 
   const handle_cancel_switch = () => {
     set_show_unsaved_dialog(false);
     set_pending_canon_id(null);
     set_pending_canon_type(null);
+    set_pending_tab_value(null);
   };
   useEffect(() => {
     const { canons_settings, canons_story } = handle_update_canons();
@@ -178,10 +210,10 @@ export default function LeftPane() {
       </Pane.Title>
       <Pane.Content className="flex-1 min-h-0 text-sm overflow-hidden">
         <Tab
-          default_value={default_tab_value}
+          value={current_tab_value}
           onValueChange={(value) => {
             if (value === "settings" || value === "story") {
-              set_current_tab_value(value);
+              handle_tab_switch(value);
             }
           }}
           className="h-full flex flex-col overflow-hidden"
