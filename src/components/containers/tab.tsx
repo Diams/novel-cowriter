@@ -3,17 +3,20 @@ import * as Tabs from "@radix-ui/react-tabs";
 export default function Tab({
   children,
   default_value,
+  value,
   onValueChange,
   className,
 }: {
   children?: React.ReactNode;
   default_value?: string;
+  value?: string;
   onValueChange?: (value: string) => void;
   className?: string;
 }) {
   return (
     <Tabs.Root
       defaultValue={default_value}
+      value={value}
       onValueChange={onValueChange}
       className={`space-y-2.5 ${className ?? ""}`}
     >
