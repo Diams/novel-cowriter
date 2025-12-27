@@ -18,7 +18,7 @@ export default function UnsavedContentDialog({
         <Dialog.Overlay className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50" />
         <Dialog.Content className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-[#1E293B] border border-white/20 rounded-2xl shadow-2xl p-6 z-50 max-w-md w-full">
           <Dialog.Title className="text-lg font-bold text-white mb-4">
-            未保存の内容があります
+            未保存の変更
           </Dialog.Title>
           <Dialog.Description className="text-sm text-white/80 mb-6">
             未保存の内容があります。保存しますか？
