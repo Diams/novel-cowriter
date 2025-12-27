@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import Button from "@/components/actions/button";
 import Pane from "@/components/containers/pane";
 import Badge from "@/components/displays/badge";
@@ -11,6 +11,7 @@ import {
 import { useCanonRefreshStore } from "@/utils/stores/canon_refresh_store";
 import { useCurrentTabStore } from "@/utils/stores/current_tab_store";
 import { useSelectedCanonStore } from "@/utils/stores/selected_canon_store";
+import { useWorkspaceStore } from "@/utils/stores/workspace_store";
 
 export default function CenterPane() {
   const current_tab_value = useCurrentTabStore((state) => state.current_tab);
@@ -24,24 +25,62 @@ export default function CenterPane() {
   const [selected_canon_title, set_selected_canon_title] = useState<string>("");
   const [selected_canon_content, set_selected_canon_content] =
     useState<string>("");
+  const [saved_canon_content, set_saved_canon_content] = useState<string>("");
+  const is_unsaved = selected_canon_content !== saved_canon_content;
+  
+  const set_is_unsaved = useWorkspaceStore((state) => state.set_is_unsaved);
+  const set_save_workspace = useWorkspaceStore(
+    (state) => state.set_save_workspace
+  );
+
+  const save_content = useCallback(() => {
+    UpdateCanon(
+      current_tab_value === "settings" ? selected_settings : selected_story,
+      {
+        content: selected_canon_content,
+      }
+    );
+    set_saved_canon_content(selected_canon_content);
+    trigger_refresh();
+  }, [
+    current_tab_value,
+    selected_settings,
+    selected_story,
+    selected_canon_content,
+    set_saved_canon_content,
+    trigger_refresh,
+  ]);
+
+  useEffect(() => {
+    set_is_unsaved(is_unsaved);
+  }, [is_unsaved, set_is_unsaved]);
+
+  useEffect(() => {
+    set_save_workspace(save_content);
+  }, [save_content, set_save_workspace]);
+  
   useEffect(() => {
     if (current_tab_value === "settings") {
       const selected_canon = GetCanonById(selected_settings);
       if (selected_canon) {
         set_selected_canon_title(selected_canon.title);
         set_selected_canon_content(selected_canon.content);
+        set_saved_canon_content(selected_canon.content);
       } else {
         set_selected_canon_title("");
         set_selected_canon_content("");
+        set_saved_canon_content("");
       }
     } else {
       const selected_canon = GetCanonById(selected_story);
       if (selected_canon) {
         set_selected_canon_title(selected_canon.title);
         set_selected_canon_content(selected_canon.content);
+        set_saved_canon_content(selected_canon.content);
       } else {
         set_selected_canon_title("");
         set_selected_canon_content("");
+        set_saved_canon_content("");
       }
     }
   }, [current_tab_value, selected_settings, selected_story]);
@@ -60,17 +99,10 @@ export default function CenterPane() {
           />
           <Button
             text="保存"
-            onClick={() => {
-              UpdateCanon(
-                current_tab_value === "settings"
-                  ? selected_settings
-                  : selected_story,
-                {
-                  content: selected_canon_content,
-                }
-              );
-              trigger_refresh();
-            }}
+            end_indicator_icon_name={is_unsaved ? "IconCircleFilled" : undefined}
+            end_indicator_icon_size={12}
+            end_indicator_icon_color="white"
+            onClick={save_content}
           />
           <Button
             text="クリア"

@@ -12,6 +12,9 @@ export default function Button({
   text_color = "white/92",
   border_color = "white/10",
   hover_border_color = "white/16",
+  end_indicator_icon_name,
+  end_indicator_icon_size,
+  end_indicator_icon_color = "white",
   onClick,
 }: {
   text?: string;
@@ -23,10 +26,16 @@ export default function Button({
   text_color?: string;
   border_color?: string;
   hover_border_color?: string;
+  end_indicator_icon_name?: keyof typeof TablerIcons;
+  end_indicator_icon_size?: number;
+  end_indicator_icon_color?: string;
   onClick?: (e: MouseEvent<HTMLButtonElement>) => void;
 }) {
   const Icon = icon_name
     ? (TablerIcons[icon_name] as ComponentType<{ size?: number }>)
+    : null;
+  const EndIndicatorIcon = end_indicator_icon_name
+    ? (TablerIcons[end_indicator_icon_name] as ComponentType<{ size?: number; color?: string }>)
     : null;
   return (
     <button
@@ -49,6 +58,11 @@ export default function Button({
     >
       {Icon && <Icon size={icon_size} />}
       {text}
+      {EndIndicatorIcon && (
+        <span className="ml-1">
+          <EndIndicatorIcon size={end_indicator_icon_size} color={end_indicator_icon_color} />
+        </span>
+      )}
     </button>
   );
 }
