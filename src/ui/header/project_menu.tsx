@@ -4,11 +4,13 @@ import {
   IconBaselineDensityMedium,
   IconFileExport,
   IconFileImport,
+  IconFilePlus,
 } from "@tabler/icons-react";
 import { useRef } from "react";
 import DropdownMenu from "@/components/actions/dropdown_menu";
 import { ProjectData } from "@/utils/data_type";
 import {
+  DeleteAllCanons,
   GetAllCanons,
   SaveCanons,
 } from "@/utils/data_accessor/canon_data_accessor";
@@ -36,6 +38,24 @@ export default function ProjectMenu() {
         </DropdownMenu.Trigger>
         <div className="mr-2">
           <DropdownMenu.Content>
+            <DropdownMenu.Item
+              onSelect={() => {
+                if (
+                  confirm(
+                    "新規プロジェクトを立ち上げると、未保存の内容は復旧できません。よろしいですか？"
+                  )
+                ) {
+                  DeleteAllCanons();
+                  SaveChatMessages([]);
+                  window.location.reload();
+                }
+              }}
+            >
+              <div className="flex gap-1 items-center">
+                <IconFilePlus size={16} />
+                <div>新規</div>
+              </div>
+            </DropdownMenu.Item>
             <DropdownMenu.Item
               onSelect={() => {
                 const project_data: ProjectData = {
