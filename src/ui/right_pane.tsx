@@ -63,12 +63,10 @@ Output:
   // 初回マウント時にlocalStorageから復元
   useEffect(() => {
     const saved = GetAllChatMessages();
-    if (saved) {
-      try {
-        set_chat_messages(saved);
-      } catch (e) {
-        console.error("Failed to parse saved chat messages:", e);
-      }
+    if (saved.length > 0) {
+      // システムプロンプトは常に最新のものを先頭に置く
+      const non_system_messages = saved.filter((m) => m.role !== "system");
+      set_chat_messages([...default_chat_messages, ...non_system_messages]);
     }
     set_is_loaded(true);
   }, [load_trigger]);
